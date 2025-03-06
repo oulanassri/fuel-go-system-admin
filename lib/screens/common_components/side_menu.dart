@@ -28,26 +28,17 @@ class SideMenu extends StatelessWidget {
               svgSrc: 'assets/icons/menu_dashboard.svg',
               press: () { Get.toNamed(Routes.MAIN_SCREEN);},
             ),
-            DrawerListTile(
+            DrawerMultiListTile(
               title: 'إدارة الطلبات',
               svgSrc: 'assets/icons/menu_tran.svg',
-              press: () {},
             ),
+
             DrawerListTile(
-              title: 'إدارة المحفظات',
-              svgSrc: 'assets/icons/menu_task.svg',
-              press: () {},
-            ),
-            DrawerListTile(
-              title: 'إدارة السّائقين',
+              title: 'إدارة المسؤولين',
               svgSrc: 'assets/icons/menu_doc.svg',
-              press: () { Get.toNamed(Routes.DRIVERS_MANAGEMENT);},
+              press: () { Get.toNamed(Routes.ADMINS_MANAGEMENT);},
             ),
-            DrawerListTile(
-              title: 'إدارة الشاحنات',
-              svgSrc: 'assets/icons/menu_store.svg',
-              press: () {},
-            ),
+
             DrawerListTile(
               title: 'إدارة المراكز',
               svgSrc: 'assets/icons/menu_notification.svg',
@@ -58,7 +49,7 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: 'الإعدادات',
               svgSrc: 'assets/icons/menu_notification.svg',
-              press: () {},
+              press: () { Get.toNamed(Routes.SETTINGS_SCREEN);},
             ),
           ],
         ),
@@ -92,6 +83,63 @@ class DrawerListTile extends StatelessWidget {
         title,
         style: Theme.of(context).textTheme.titleLarge,
       ),
+    );
+  }
+}
+class DrawerMultiListTile extends StatelessWidget {
+  DrawerMultiListTile({
+    super.key,
+    required this.title,
+    required this.svgSrc,
+  });
+
+  final String title, svgSrc;
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      leading: SvgPicture.asset(
+        svgSrc,
+        color: Colors.white54,
+        height: 16,
+      ),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
+      children: [
+        DrawerListTile(
+          title: 'الطلبات القادمة',
+          svgSrc: 'assets/icons/menu_notification.svg',
+          press: () {
+            Get.toNamed(Routes.ORDERS_UPCOMING_SCREEN);
+          },
+        ),
+        DrawerListTile(
+          title: 'الطلبات قيد التّنفيذ',
+          svgSrc: 'assets/icons/menu_notification.svg',
+          press: () {
+
+            Get.toNamed(Routes.ORDERS_INPROGRESS_SCREEN);
+          },
+        ),
+        DrawerListTile(
+          title: 'الطلبات المكتملة',
+          svgSrc: 'assets/icons/menu_notification.svg',
+          press: () {
+
+            Get.toNamed(Routes.ORDERS_COMPLETED_SCREEN);
+          },
+        ),
+        DrawerListTile(
+          title: 'الطلبات الملغاة',
+          svgSrc: 'assets/icons/menu_notification.svg',
+          press: () {
+
+            Get.toNamed(Routes.ORDERS_CANCELLED_SCREEN);
+          },
+        ),
+      ],
     );
   }
 }

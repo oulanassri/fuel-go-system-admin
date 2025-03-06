@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 import '../../common_components/header.dart';
 import 'add_button1.dart';
-import 'custom_drivers_table.dart';
+import 'custom_admins_table.dart';
 
-class DriversTable extends StatelessWidget {
-  const DriversTable({Key? key}) : super(key: key);
+class AdminsTable extends StatelessWidget {
+  const AdminsTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class DriversTable extends StatelessWidget {
                   flex: 5,
                   child: Column(
                     children: [
-                      Header(title: 'إدارة السّائقين',),
+                      Header(title: 'إدارة المسؤولين',),
                       SizedBox(
                         height: defaultPadding,
                       ),
@@ -35,7 +35,7 @@ class DriversTable extends StatelessWidget {
                       SizedBox(
                         height: defaultPadding,
                       ),
-                      CustomDriversTable(),
+                      CustomAdminsTable(),
 
 
                     ],

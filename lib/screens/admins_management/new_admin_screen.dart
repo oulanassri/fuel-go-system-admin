@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:system_admin_fuel_go/screens/constants.dart';
-import 'package:system_admin_fuel_go/screens/drivers_management/components/adding_driver_form.dart';
 import '../common_components/side_menu.dart';
 import '../responsive.dart';
-import 'drivers_management_controller.dart';
+import 'admins_management_controller.dart';
+import 'components/adding_admin_form.dart';
 
-class NewDriverScreen extends GetView<DriversManagementController> {
-  const NewDriverScreen({Key? key}) : super(key: key);
+class NewAdminScreen extends GetView<AdminsManagementController> {
+  const NewAdminScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(DriversManagementController());
+    Get.put(AdminsManagementController());
     return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
       child: Scaffold(backgroundColor: Colors.transparent,
@@ -27,7 +27,7 @@ class NewDriverScreen extends GetView<DriversManagementController> {
                 ),
               Expanded(
                 flex: 5,
-                child: AddingDriverForm(
+                child: AddingAdminForm(
                   controller: controller,
                 ),
               ),

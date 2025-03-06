@@ -10,13 +10,13 @@ import '../../dashboard/components/orders_details.dart';
 import '../../common_components/custom_material_button.dart';
 import '../../common_components/custom_text_form_field.dart';
 import '../../responsive.dart';
-import '../drivers_management_controller.dart';
+import '../admins_management_controller.dart';
 import 'add_button1.dart';
 
-class AddingDriverForm extends StatelessWidget {
-  const AddingDriverForm({Key? key, required this.controller})
+class AddingAdminForm extends StatelessWidget {
+  const AddingAdminForm({Key? key, required this.controller})
       : super(key: key);
-  final DriversManagementController controller;
+  final AdminsManagementController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class AddingDriverForm extends StatelessWidget {
                   child: Column(
                     children: [
                       Header(
-                        title: 'إضافة سائق',
+                        title: 'إضافة مسؤول',
                       ),
                       SizedBox(
                         height: defaultPadding,
@@ -59,7 +59,7 @@ class AddingDriverForm extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 CustomTextFormField(
-                                  hintText: "اسم السائق",
+                                  hintText: "الاسم ",
                                   controller: controller.nameController,
                                 ),
                                 CustomTextFormField(
@@ -71,14 +71,14 @@ class AddingDriverForm extends StatelessWidget {
                                   controller: controller.phoneController,
                                 ),
                                 CustomTextFormField(
-                                  hintText: "رقم الشاحنة",
-                                  controller: controller.lorryNumberController,
+                                  hintText: "اسم المركز",
+                                  controller: controller.centerNameController,
                                 ),
                                 CustomTextFormField(
                                   hintText: "كلمة السّر",
                                   controller: controller.passwordController,
                                 ),
-                                Obx(
+                               /* Obx(
                                   () => Padding(
                                       padding: const EdgeInsets.all(
                                           defaultPadding / 2),
@@ -154,7 +154,7 @@ class AddingDriverForm extends StatelessWidget {
                                               ]),
                                         ],
                                       )),
-                                ),
+                                ),*/
                                 /* SizedBox(
                                   height: 40,
                                 ),*/
@@ -166,14 +166,14 @@ class AddingDriverForm extends StatelessWidget {
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
                                         route: "Routes.MAIN_SCREEN",
-                                        text: "إلغاء",
+                                        text: "إلغاء", function: () {  },
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
                                         route: "Routes.MAIN_SCREEN",
-                                        text: "إضافة",
+                                        text: "إضافة", function: () {  },
                                       ),
                                     ),
                                   ],

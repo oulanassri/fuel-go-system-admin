@@ -16,6 +16,7 @@ class LoginScreen extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
+    RxBool obscurePassword = true.obs;
     Get.put(LoginController());
     return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
@@ -33,10 +34,10 @@ class LoginScreen extends GetView<LoginController> {
                   width: 200,
                 ),
               ),
-
               FadeInUp(
                   duration: Duration(milliseconds: 1400),
-                  child: Container(width: MediaQuery.of(context).size.width/2,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2,
                     padding: EdgeInsets.all(defaultPadding * 2),
                     decoration: BoxDecoration(
                         color: Colors.transparent,
@@ -54,10 +55,43 @@ class LoginScreen extends GetView<LoginController> {
                           hintText: "رقم الهاتف",
                           controller: controller.mobileNumberController,
                         ),
-                        CustomTextFormField(
-                          hintText: "كلمة السّر",
-                          controller: controller.passwordController,
-                        ),
+                        Obx(() => Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.grey.shade200),
+                            ),
+                          ),
+                          child: TextField(
+                            obscureText: obscurePassword.value,
+                            controller:
+                            controller.passwordController,
+                            decoration: InputDecoration(
+                                suffix: InkWell(
+                                  child: Icon(
+                                    obscurePassword.value
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: primaryColor,
+                                    size: 20,
+                                  ),
+                                  onTap: () {
+                                    obscurePassword.value =
+                                    !(obscurePassword.value);
+
+                                  },
+                                ),
+                                label: Text("أدخل كلمة السّر"),
+                                labelStyle: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall,
+                                hintText: "كلمة السّر",
+                                hintStyle:
+                                TextStyle(color: Colors.grey),
+                                border: InputBorder.none),
+                          ),
+                        )),
                         SizedBox(
                           height: 40,
                         ),
@@ -66,8 +100,11 @@ class LoginScreen extends GetView<LoginController> {
                           child: CustomMaterialButton(
                             route: Routes.MAIN_SCREEN,
                             text: "تسجيل دخول",
-
-
+                            function: () {
+                              Get.offNamed(Routes.MAIN_SCREEN);
+                            //  print("login button");
+                           //   controller.login();
+                            },
                           ),
                         )
                       ],

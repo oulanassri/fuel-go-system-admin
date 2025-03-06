@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../models/admin_model.dart';
 import '../../../models/center_model.dart';
-import '../../../models/driver_model.dart';
 import '../../../models/recent_file.dart';
 import '../../constants.dart';
 
-class CustomDriversTable extends StatelessWidget {
-  const CustomDriversTable({
+class CustomAdminsTable extends StatelessWidget {
+   CustomAdminsTable({
     super.key,
   });
 
@@ -31,7 +31,7 @@ class CustomDriversTable extends StatelessWidget {
               columns: [
                 DataColumn(
                   label: Text(
-                    "رقم السّائق",
+                    "رقم المسؤول",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -50,13 +50,13 @@ class CustomDriversTable extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,),
                 ),
                 DataColumn(
-                  label: Text("رقم الشّاحنة",
+                  label: Text("المركز",
                     style: Theme.of(context).textTheme.titleLarge,),
                 ),
               ],
               rows: List.generate(
-                driversList.length,
-                (index) => driverDataRow(driversList[index],context),
+                adminsList.length,
+                (index) => adminDataRow(adminsList[index],context),
               ),
             ),
           ),
@@ -65,27 +65,27 @@ class CustomDriversTable extends StatelessWidget {
     );
   }
 
-  DataRow driverDataRow(DriverModel driverModel,BuildContext context) {
+  DataRow adminDataRow(AdminModel adminModel,BuildContext context) {
     return DataRow(
       cells: [
         DataCell(
-          Text(driverModel.id ?? "",
+          Text(adminModel.id ?? "",
             style:Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
-          Text(driverModel.name ?? "",
+          Text(adminModel.name ?? "",
             style: Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
-          Text(driverModel.email ?? "",
+          Text(adminModel.email ?? "",
             style: Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
-          Text(driverModel.phone ?? "",
+          Text(adminModel.phone ?? "",
             style:Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
-          Text(driverModel.lorryNumber ?? "",
+          Text(adminModel.center ?? "",
             style: Theme.of(context).textTheme.bodyLarge,),
         ),
       ],

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:system_admin_fuel_go/screens/constants.dart';
+import 'package:intl/intl.dart';
+import 'package:system_admin_fuel_go/screens/settings/settings_controller.dart';
+import '../common_components/custom_material_button.dart';
 import '../common_components/side_menu.dart';
+import '../constants.dart';
 import '../responsive.dart';
-import 'components/drivers_table.dart';
-import 'drivers_management_controller.dart';
+import 'components/custom_settings_table.dart';
 
-class DriversManagementScreen extends StatelessWidget {
-  const DriversManagementScreen({Key? key}) : super(key: key);
+class SettingsScreen extends GetView<SettingsController> {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(DriversManagementController());
+    Get.put(SettingsController());
     return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
-      child: Scaffold(backgroundColor: Colors.transparent,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
         drawer: SideMenu(),
         body: SafeArea(
           child: Row(
@@ -25,9 +28,11 @@ class DriversManagementScreen extends StatelessWidget {
                 Expanded(
                   child: SideMenu(),
                 ),
+
               Expanded(
                 flex: 5,
-                child: DriversTable(),
+                child:
+                CustomSettingsTable(controller: controller,), //CustomOrdersTable()// OrderDetails(),
               ),
             ],
           ),

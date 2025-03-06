@@ -30,14 +30,14 @@ class AddButton1 extends StatelessWidget {
               ),
               backgroundColor: primaryButton),
           onPressed: () {
-            Get.toNamed(Routes.NEW_DRIVER);
+            Get.toNamed(Routes.NEW_ADMIN);
           },
           icon: Icon(
             Icons.add,
             color: primaryIcon,
           ),
           label: Text(
-            'إضافة سائق جديد',
+            'إضافة مسؤول جديد',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),

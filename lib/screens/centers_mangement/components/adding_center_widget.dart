@@ -75,7 +75,7 @@ class AddingCenterWidget extends StatelessWidget {
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
                                         route: "Routes.MAIN_SCREEN",
-                                        text: "إلغاء",
+                                        text: "إلغاء", function: () {  },
 
 
                                       ),
@@ -84,7 +84,7 @@ class AddingCenterWidget extends StatelessWidget {
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
                                         route: "Routes.MAIN_SCREEN",
-                                        text: "إضافة",
+                                        text: "إضافة", function: () {  },
 
                                       ),
                                     )
