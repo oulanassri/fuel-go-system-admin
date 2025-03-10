@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:system_admin_fuel_go/screens/constants.dart';
 
+import '../../native_service/get_storage.dart';
 import '../../routes/app_routes.dart';
 
 class SideMenu extends StatelessWidget {
@@ -50,6 +51,13 @@ class SideMenu extends StatelessWidget {
               title: 'الإعدادات',
               svgSrc: 'assets/icons/menu_notification.svg',
               press: () { Get.toNamed(Routes.SETTINGS_SCREEN);},
+            ),
+            DrawerListTile(
+              title: 'تسجيل خروج',
+              svgSrc: 'assets/icons/menu_notification.svg',
+              press: () {  UserStorage.delete('token');
+
+              Get.offNamed(Routes.LOGIN); },
             ),
           ],
         ),

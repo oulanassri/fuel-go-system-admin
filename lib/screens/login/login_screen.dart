@@ -98,12 +98,12 @@ class LoginScreen extends GetView<LoginController> {
                         Padding(
                           padding: EdgeInsets.all(defaultPadding),
                           child: CustomMaterialButton(
-                            route: Routes.MAIN_SCREEN,
+
                             text: "تسجيل دخول",
                             function: () {
-                              Get.offNamed(Routes.MAIN_SCREEN);
-                            //  print("login button");
-                           //   controller.login();
+
+                              print("login button");
+                             controller.login();
                             },
                           ),
                         )

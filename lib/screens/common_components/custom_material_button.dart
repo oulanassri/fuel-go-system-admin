@@ -6,9 +6,9 @@ import '../constants.dart';
 
 class CustomMaterialButton extends StatelessWidget {
   const CustomMaterialButton(
-      {Key? key, required this.route, required this.text,required this.function})
+      {Key? key,  required this.text,required this.function})
       : super(key: key);
-  final String route;
+
   final String text;
 final VoidCallback function;
 

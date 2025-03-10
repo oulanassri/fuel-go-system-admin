@@ -81,7 +81,6 @@ class EditServiceScreen extends GetView<SettingsController> {
                                   Padding(
                                     padding: EdgeInsets.all(defaultPadding),
                                     child: CustomMaterialButton(
-                                      route: "Routes.MAIN_SCREEN",
                                       text: "إلغاء",
                                       function: () {},
                                     ),
@@ -89,7 +88,6 @@ class EditServiceScreen extends GetView<SettingsController> {
                                   Padding(
                                     padding: EdgeInsets.all(defaultPadding),
                                     child: CustomMaterialButton(
-                                      route: "Routes.MAIN_SCREEN",
                                       text: "تعديل",
                                       function: () {},
                                     ),

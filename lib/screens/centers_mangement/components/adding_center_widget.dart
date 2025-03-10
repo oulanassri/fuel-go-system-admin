@@ -1,6 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
+import '../../../models/city.dart';
+import '../../../models/neighborhood.dart';
+import '../../../utils/helpers/helper_functions.dart';
 import '../../constants.dart';
 import '../../common_components/header.dart';
 import 'custom_centers_table.dart';
@@ -12,8 +17,7 @@ import '../centers_managment_controller.dart';
 import 'add_button.dart';
 
 class AddingCenterWidget extends StatelessWidget {
-  const AddingCenterWidget({Key? key, required this.controller})
-      : super(key: key);
+  AddingCenterWidget({Key? key, required this.controller}) : super(key: key);
   final CentersManagementController controller;
 
   @override
@@ -52,17 +56,234 @@ class AddingCenterWidget extends StatelessWidget {
                                       blurRadius: 20,
                                       offset: Offset(0, 10))
                                 ]),
-                            child: Column(
+                            child: Column(spacing: defaultPadding,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                CustomTextFormField(
-                                  hintText: "موقع المركز",
-                                  controller: controller.locationController,
+                                Obx(
+                                  () => Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "اختر  المحافظة",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                      ),
+                                      DropdownButton<String>(
+                                          // updated
+                                          onChanged: (String? newValue) {
+                                            controller.setSelectedCity(
+                                                newValue ?? '');
+                                          },
+                                          value: controller.selectedCity.value,
+                                          onTap: () {}, //updated
+                                          items: [
+                                            for (CityModel value
+                                                in controller.cities)
+                                              DropdownMenuItem(
+                                                value: value.name,
+                                                child: Text(
+                                                  value.name ?? "",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge, //updated
+                                                ),
+                                              ),
+                                          ]),
+                                    ],
+                                  ),
                                 ),
-
+                                Obx(
+                                  () => controller.selectedCityId.value > 0
+                                      ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "اختر الحيّ",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall,
+                                            ),
+                                            DropdownButton(
+                                                // updated
+                                                onChanged: (String? newValue) {
+                                                  controller
+                                                      .setSelectedNeighborhood(
+                                                          newValue ?? '');
+                                                },
+                                                value: controller
+                                                    .selectedNeighborhood.value,
+                                                onTap: () {}, //updated
+                                                items: [
+                                                  for (NeighborhoodModel value
+                                                      in controller
+                                                          .neighborhoodes)
+                                                    DropdownMenuItem(
+                                                      value: value.name,
+                                                      child: Text(
+                                                        value.name ?? "",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge, //updated
+                                                      ),
+                                                    ),
+                                                ]),
+                                          ],
+                                        )
+                                      : Container(),
+                                ),
                                 CustomTextFormField(
-                                  hintText: "كلمة السر",
-                                  controller: controller.passwordController,
+                                  hintText: "اسم المركز",
+                                  controller: controller.centerNameController,
+                                ),
+                                CustomTextFormField(
+                                  hintText: "رقم هاتف المركز",
+                                  controller: controller.centerPhoneController,
+                                ),
+                                Text(
+                                  "يرجى إدخال موقع المركز",
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                TextField(
+                                  controller:
+                                      controller.locationDetailsController,
+                                  onChanged: (String value) async {
+                                    controller.isLoading.value = true;
+                                    var data = await addressSuggestion(
+                                        controller
+                                            .locationDetailsController.text);
+                                    if (data.isNotEmpty) {
+                                      controller.listSource.value = data;
+                                    }
+                                    controller.isLoading.value = false;
+                                    print("data");
+                                    print(controller.listSource);
+
+                                    controller.isLoading.value = false;
+                                  },
+                                ),
+                                Obx(
+                                  () => controller.isLoading.value
+                                      ? Center(
+                                          child: CircularProgressIndicator(),
+                                        )
+                                      : controller.listSource.isEmpty
+                                          ? Container()
+                                          : Container(
+                                              height:
+                                                  controller.listSource.isNotEmpty
+                                                      ? 300
+                                                      : 100,
+                                              child: ListView.builder(
+                                                  itemCount: controller
+                                                      .listSource.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return ListTile(
+                                                      onTap: () {
+                                                        controller
+                                                                .currentPointPosition =
+                                                            controller
+                                                                .listSource[
+                                                                    index]
+                                                                .point!;
+                                                        controller
+                                                                .locationDetailsController
+                                                                .text =
+                                                            controller
+                                                                .listSource[
+                                                                    index]
+                                                                .address
+                                                                .toString();
+                                                        controller
+                                                                .currentPointPosition =
+                                                            controller
+                                                                .listSource[
+                                                                    index]
+                                                                .point!;
+                                                        print(
+                                                            "currentPointPosition");
+                                                        print(controller
+                                                            .currentPointPosition);
+                                                        controller.listSource
+                                                            .clear();
+                                                        /* Fluttertoast.showToast(
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.SNACKBAR,
+                          msg:
+                          'Click to ${controller.listSource[index].point.toString()}');*/
+                                                        controller
+                                                                .currentPointPosition =
+                                                            controller
+                                                                .listSource[
+                                                                    index]
+                                                                .point!;
+                                                      },
+                                                      title: Text(
+                                                        controller
+                                                            .listSource[index]
+                                                            .address
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                                primaryColor),
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                ),
+                                Text(
+                                  "يُرجى تحديد موقعك على الخريطة",
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                Center(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      var geoPoint =
+                                          await showSimplePickerLocation(
+                                              context: context,
+                                              isDismissible: true,
+                                              title: "pick address",
+                                              textConfirmPicker: "pick",
+                                              initPosition: controller
+                                                  .currentPointPosition,
+                                              /*GeoPoint(
+                  latitude: currentPosition!.latitude,
+                  longitude: currentPosition!.longitude),*/
+                                              /* initCurrentUserPosition: UserTrackingOption(
+                enableTracking: true,
+              ),*/
+                                              radius: 0,
+                                              zoomOption: ZoomOption(
+                                                  stepZoom: 10, initZoom: 18));
+                                      if (geoPoint != null) {
+                                        controller.longitude =
+                                            geoPoint.longitude;
+                                        controller.latitude = geoPoint.latitude;
+
+                                        /* Fluttertoast.showToast(
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.SNACKBAR,
+                msg: 'Click to ${geoPoint.toString()}');*/
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 75,
+                                      height: 75,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: Icon(
+                                        Icons.pin_drop,
+                                        color: primaryColor,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 40,
@@ -74,18 +295,17 @@ class AddingCenterWidget extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        route: "Routes.MAIN_SCREEN",
-                                        text: "إلغاء", function: () {  },
-
-
+                                        text: "إلغاء",
+                                        function: () {},
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        route: "Routes.MAIN_SCREEN",
-                                        text: "إضافة", function: () {  },
-
+                                        text: "إضافة",
+                                        function: () {
+                                          controller.addCenter();
+                                        },
                                       ),
                                     )
                                   ],

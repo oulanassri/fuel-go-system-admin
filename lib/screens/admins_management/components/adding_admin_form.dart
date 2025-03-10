@@ -165,14 +165,12 @@ class AddingAdminForm extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        route: "Routes.MAIN_SCREEN",
                                         text: "إلغاء", function: () {  },
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        route: "Routes.MAIN_SCREEN",
                                         text: "إضافة", function: () {  },
                                       ),
                                     ),

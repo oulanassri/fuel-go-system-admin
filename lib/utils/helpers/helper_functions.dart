@@ -1,14 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:intl/intl.dart';
 
+import '../../screens/constants.dart';
+
 class THelperFunctions {
-  static void showSnackBar(String message, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-        message,
-      )),
-    );
+  static void showSnackBar({required String message, required String title}) {
+    Get.snackbar(title, message,
+        maxWidth: 700,
+        snackPosition: SnackPosition.BOTTOM,
+        titleText: Text(
+          title,
+          style: TextStyle().copyWith(
+            fontSize: 18,
+            fontFamily: 'Tajawal',
+            fontWeight: FontWeight.w600,
+            color: white,
+          ),
+        ),
+        messageText: Text(
+          message,
+          style: TextStyle().copyWith(
+            fontSize: 18,
+            fontFamily: 'Tajawal',
+            fontWeight: FontWeight.w600,
+            color: white,
+          ),
+        ),
+        backgroundColor: primaryColor);
   }
 
   static void showAlert(String title, String message, BuildContext context) {
