@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
+import '../../../models/city.dart';
 import '../../constants.dart';
 import '../../common_components/header.dart';
+import '../admins_management_controller.dart';
 import 'add_button1.dart';
 import 'custom_admins_table.dart';
 
 class AdminsTable extends StatelessWidget {
-  const AdminsTable({Key? key}) : super(key: key);
+   AdminsTable({Key? key,}) : super(key: key);
+   AdminsManagementController controller=  Get.put(AdminsManagementController());
 
-  @override
+   @override
   Widget build(BuildContext context) {
 
     return SafeArea(
@@ -25,16 +31,49 @@ class AdminsTable extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 5,
-                  child: Column(
+                  child: Column(spacing:defaultPadding,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Header(title: 'إدارة المسؤولين',),
-                      SizedBox(
-                        height: defaultPadding,
-                      ),
+
                       AddButton1(),
-                      SizedBox(
-                        height: defaultPadding,
+
+                      Obx(
+                            () => Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "اختر  المحافظة",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall,
+                            ),
+                            DropdownButton<String>(
+                              // updated
+                                onChanged: (String? newValue) {
+                                  controller.setSelectedCity(
+                                      newValue ?? '');
+                                },
+                                value: controller.selectedCity.value,
+                                onTap: () {}, //updated
+                                items: [
+                                  for (CityModel value
+                                  in controller.cities)
+                                    DropdownMenuItem(
+                                      value: value.name,
+                                      child: Text(
+                                        value.name ?? "",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge, //updated
+                                      ),
+                                    ),
+                                ]),
+                          ],
+                        ),
                       ),
+
                       CustomAdminsTable(),
 
 

@@ -1,8 +1,11 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
+import '../../../models/city.dart';
 import '../../constants.dart';
 import '../../common_components/header.dart';
 import '../../centers_mangement/components/custom_centers_table.dart';
@@ -58,6 +61,45 @@ class AddingAdminForm extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
+                                Obx(
+                                      () =>
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "اختر  المحافظة",
+                                            style: Theme
+                                                .of(context)
+                                                .textTheme
+                                                .titleSmall,
+                                          ),
+                                          DropdownButton<String>(
+                                            // updated
+                                              onChanged: (String? newValue) {
+                                                controller.setSelectedCity(
+                                                    newValue ?? '');
+                                              },
+                                              value: controller.selectedCity
+                                                  .value,
+                                              onTap: () {}, //updated
+                                              items: [
+                                                for (CityModel value
+                                                in controller.cities)
+                                                  DropdownMenuItem(
+                                                    value: value.name,
+                                                    child: Text(
+                                                      value.name ?? "",
+                                                      style: Theme
+                                                          .of(context)
+                                                          .textTheme
+                                                          .bodyLarge, //updated
+                                                    ),
+                                                  ),
+                                              ]),
+                                        ],
+                                      ),
+                                ),
                                 CustomTextFormField(
                                   hintText: "الاسم ",
                                   controller: controller.nameController,
@@ -70,108 +112,29 @@ class AddingAdminForm extends StatelessWidget {
                                   hintText: "رقم الهاتف",
                                   controller: controller.phoneController,
                                 ),
-                                CustomTextFormField(
-                                  hintText: "اسم المركز",
-                                  controller: controller.centerNameController,
-                                ),
-                                CustomTextFormField(
-                                  hintText: "كلمة السّر",
-                                  controller: controller.passwordController,
-                                ),
-                               /* Obx(
-                                  () => Padding(
-                                      padding: const EdgeInsets.all(
-                                          defaultPadding / 2),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "اختر برنامج الدّوام",
-                                            style:Theme.of(context)
-                                                .textTheme
-                                                .titleSmall,
-                                          ),
-                                          DropdownButton<String>(
-                                              // updated
-                                              onChanged: (String? newValue) {
-                                                controller.setSelectedSift(
-                                                    newValue ?? '');
-                                              },
-                                              value: controller.selectedShift
-                                                  .value, //updated
-                                              items: [
-                                                for (var value
-                                                    in controller.shiftsList)
-                                                  DropdownMenuItem(
-                                                    value: value,
-                                                    child: Text(
-                                                      value,style:  Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge,  //updated
-                                                    ),
-                                                  ),
-                                              ]),
-                                        ],
-                                      )),
-                                ),
-                                Obx(
-                                  () => Padding(
-                                      padding: const EdgeInsets.all(
-                                          defaultPadding / 2),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "اختر رقم لوحة الشّاحنة",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall,
-                                          ),
-                                          DropdownButton<String>(
-                                              // updated
-                                              onChanged: (String? newValue) {
-                                                controller
-                                                    .setSelectedPlateNumber(
-                                                        newValue ?? '');
-                                              },
-                                              value: controller
-                                                  .selectedPlateNumber
-                                                  .value, //updated
-                                              items: [
-                                                for (var value in controller
-                                                    .plateNumbersList)
-                                                  DropdownMenuItem(
-                                                    value: value,
-                                                    child: Text(
-                                                      value,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyLarge, //updated
-                                                    ),
-                                                  ),
-                                              ]),
-                                        ],
-                                      )),
-                                ),*/
+
+
                                 /* SizedBox(
                                   height: 40,
                                 ),*/
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        text: "إلغاء", function: () {  },
+                                        text: "إلغاء", function: () {
+                                        Get.back();
+                                      },
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        text: "إضافة", function: () {  },
+                                        text: "إضافة", function: () {
+                                        controller.addAdmin();
+                                      },
                                       ),
                                     ),
                                   ],

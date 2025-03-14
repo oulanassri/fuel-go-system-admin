@@ -12,7 +12,6 @@ class AdminsManagementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AdminsManagementController());
     return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
       child: Scaffold(backgroundColor: Colors.transparent,

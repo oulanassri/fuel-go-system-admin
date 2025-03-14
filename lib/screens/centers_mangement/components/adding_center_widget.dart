@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 import '../../../models/city.dart';
@@ -296,7 +298,9 @@ class AddingCenterWidget extends StatelessWidget {
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
                                         text: "إلغاء",
-                                        function: () {},
+                                        function: () {
+                                          Get.back();
+                                        },
                                       ),
                                     ),
                                     Padding(

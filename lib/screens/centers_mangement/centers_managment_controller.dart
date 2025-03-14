@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
+import '../../models/centers.dart';
 import '../../models/city.dart';
 import '../../models/neighborhood.dart';
 import '../../native_service/get_storage.dart';
@@ -17,17 +19,19 @@ import '../../utils/helpers/helper_functions.dart';
 import '../../utils/http/http_client.dart';
 
 class CentersManagementController extends GetxController {
-  late UserStorage storage;
+   final String token = UserStorage.read('token');
+
   final locationDetailsController = TextEditingController();
   final centerNameController = TextEditingController();
   final centerPhoneController = TextEditingController();
-  List<CityModel> cities = [];
-  List<NeighborhoodModel> neighborhoodes = [];
+   RxList cities = [].obs;
+  RxList centersList = [].obs;
+
+   RxList neighborhoodes = [].obs;
   static final String _baseUrl = APIConstants.baseUrl;
-  final isUploading = false.obs;
   RxString selectedCity = "دمشق".obs;
-  late RxInt selectedCityId = 0.obs;
-  late RxInt selectedNeighborhoodId = 0.obs;
+  late RxInt selectedCityId = 1.obs;
+  late RxInt selectedNeighborhoodId = 1.obs;
   Rx<String?> selectedNeighborhood = "".obs;
   late GeoPoint currentPointPosition;
   var isLoading = false.obs;
@@ -37,9 +41,10 @@ class CentersManagementController extends GetxController {
 
   @override
   void onInit() {
-    storage = UserStorage();
     // getCurrentLocation();
+    getCenters();
     getCities();
+    getNeighborhood(cityId: 1);
     super.onInit();
   }
 
@@ -67,10 +72,47 @@ class CentersManagementController extends GetxController {
     }
   }
 
+  Future<void> getCenters() async {
+
+    print("getCenters");
+    try {  isLoading(true);
+      final response = await http.get(
+          Uri.parse('$_baseUrl${APIConstants.endPoints.getCenters}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          });
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> body = json.decode(response.body);
+        centersList.clear();
+        for (int i = 0; i < body.length; i++) {
+          centersList.add(
+            CentersModel(
+              id: body[i]["id"],
+              neighborhoodName: body[i]["neighborhoodName"] ,
+              phone: body[i]["phone"],
+              name: body[i]["name"],
+              lat: body[i]["lat"],
+              long: body[i]["long"],
+              locationDescription: body[i]["locationDescription"],
+            ),
+          );
+        }
+        print(centersList[0].name);
+      } else {
+        throw Exception('Failed to load date: ${response.statusCode}');
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> getCities() async {
-    isUploading(true);
+
     print("getCities");
-    try {
+    try { isLoading(true);
       final response = await http.get(
           Uri.parse('$_baseUrl${APIConstants.endPoints.getCities}'),
           headers: {
@@ -89,24 +131,25 @@ class CentersManagementController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isUploading(false);
+      isLoading(false);
     }
   }
 
   Future<void> getNeighborhood({required int cityId}) async {
-    isUploading(true);
+
     print("getNeighborhood");
-    try {
+    try { isLoading(true);
       final response = await http.get(
           Uri.parse(
               '$_baseUrl${APIConstants.endPoints.getNeighborhood}?cityId=$cityId'),
           headers: {
             'Content-Type': 'application/json',
+
           });
       print(response.body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List body = json.decode(response.body);
-
+        neighborhoodes.clear();
         for (int i = 0; i < body.length; i++) {
           neighborhoodes.add(
             NeighborhoodModel(
@@ -122,7 +165,7 @@ class CentersManagementController extends GetxController {
     } catch (e) {
       print(e);
     } finally {
-      isUploading(false);
+      isLoading(false);
     }
   }
 
@@ -131,6 +174,7 @@ class CentersManagementController extends GetxController {
     locationDetailsController.clear();
     super.dispose();
   }
+
 /*void getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -167,7 +211,7 @@ class CentersManagementController extends GetxController {
     print(currentPosition?.longitude);
     longitude = currentPosition!.longitude;
   }*/
-Future<void> addCenter() async {
+  Future<void> addCenter() async {
     print("addCenter");
     try {
       Map data = {
@@ -176,24 +220,32 @@ Future<void> addCenter() async {
         "phone": centerPhoneController.text,
         "name": centerNameController.text,
         "lat": latitude,
-        "long":longitude,
+        "long": longitude,
         "locationDescription": locationDetailsController.text
       };
       print(data);
-      Map<String, dynamic> body = await THttpHelper.post(
+      final response  = await THttpHelper.post(
           endpoint: APIConstants.endPoints.addCenter, data: data);
-      print(body);
+      http.Response response1=response as http.Response;
+      if (response1.statusCode == 201 || response1.statusCode == 200) {
+        print("response.statusCode ${response1.statusCode}");
+        centerPhoneController.clear();
+        centerNameController.clear();
+        locationDetailsController.clear();
+        THelperFunctions.showSnackBar(
+            message: "تم إضافة المركز", title: "إضافة مركز");
+       // return json.decode(response1.body);
+      } else {
+        throw Exception('Failed to load date: ${response1.statusCode}');
+      }
 
-      centerPhoneController.clear();
-      centerNameController.clear();
-      locationDetailsController.clear();
-
-      
-      THelperFunctions.showSnackBar(message: 'تم إضافة السيّارة', title: '');
     } catch (e) {
-      print(e);
-    }finally{
-      THelperFunctions.showSnackBar(message: "تم إضافة المركز", title: "إضافة مركز");
+      if (kDebugMode) {
+        print(e);
+      }
+    } finally {
+
+      getCenters();
       Get.toNamed(Routes.CENTERS_MANAGEMENT);
     }
   }

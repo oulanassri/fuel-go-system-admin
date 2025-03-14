@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-import '../../../models/admin_model.dart';
+import '../../../models/admin.dart';
 import '../../../models/center_model.dart';
 import '../../../models/recent_file.dart';
 import '../../constants.dart';
+import '../admins_management_controller.dart';
 
 class CustomAdminsTable extends StatelessWidget {
    CustomAdminsTable({
     super.key,
   });
-
+   final AdminsManagementController controller =
+   Get.put(AdminsManagementController());
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +25,11 @@ class CustomAdminsTable extends StatelessWidget {
           Radius.circular(10),
         ),
       ),
-      child: Column(
+      child: Obx(() => controller.isLoading.value
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -41,27 +49,24 @@ class CustomAdminsTable extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
-                DataColumn(
-                  label: Text("البريد الإلكتروني",
-                    style: Theme.of(context).textTheme.titleLarge,),
-                ),
+
                 DataColumn(
                   label: Text("الهاتف",
                     style: Theme.of(context).textTheme.titleLarge,),
                 ),
                 DataColumn(
-                  label: Text("المركز",
+                  label: Text("الحالة",
                     style: Theme.of(context).textTheme.titleLarge,),
                 ),
               ],
               rows: List.generate(
-                adminsList.length,
-                (index) => adminDataRow(adminsList[index],context),
+                controller.admins.length,
+                (index) => adminDataRow(controller.admins[index],context),
               ),
             ),
           ),
         ],
-      ),
+      )),
     );
   }
 
@@ -69,7 +74,7 @@ class CustomAdminsTable extends StatelessWidget {
     return DataRow(
       cells: [
         DataCell(
-          Text(adminModel.id ?? "",
+          Text(adminModel.id.toString() ?? "",
             style:Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
@@ -77,17 +82,14 @@ class CustomAdminsTable extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
-          Text(adminModel.email ?? "",
+          Text(adminModel.phone ?? "",
             style: Theme.of(context).textTheme.bodyLarge,),
         ),
         DataCell(
-          Text(adminModel.phone ?? "",
+          Text(adminModel.statusName ?? "",
             style:Theme.of(context).textTheme.bodyLarge,),
         ),
-        DataCell(
-          Text(adminModel.center ?? "",
-            style: Theme.of(context).textTheme.bodyLarge,),
-        ),
+
       ],
     );
   }
