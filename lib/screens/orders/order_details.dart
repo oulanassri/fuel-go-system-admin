@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../common_components/header.dart';
 import '../common_components/side_menu.dart';
@@ -9,11 +11,26 @@ import 'components/custom_driver_details.dart';
 import 'components/fuel_order_details.dart';
 
 class OrderDetails extends StatelessWidget {
-  const OrderDetails({Key? key}) : super(key: key);
+  OrderDetails({Key? key}) : super(key: key);
+  String date = Get.parameters['date'].toString();
+  String orderNumber = Get.parameters['orderNumber'].toString();
+  String locationDescription = Get.parameters['locationDescription'].toString();
+
+  String neighborhoodName = Get.parameters['neighborhoodName'].toString();
+  String fuelTypeName = Get.parameters['fuelTypeName'].toString();
+  String orderedQuantity = Get.parameters['orderedQuantity'].toString();
+  String price = Get.parameters['price'].toString();
+  String finalQuantity = Get.parameters['finalQuantity'].toString();
+  String finalPrice = Get.parameters['finalPrice'].toString();
+  String customerCarBrand = Get.parameters['customerCarBrand'].toString();
+  String customerApartmentName =
+      Get.parameters['customerApartmentName'].toString();
+  String authCode = Get.parameters['authCode'].toString();
 
   @override
   Widget build(BuildContext context) {
-  return Container(
+    print(date);
+    return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -28,7 +45,7 @@ class OrderDetails extends StatelessWidget {
                 ),
               Expanded(
                 flex: 5,
-                child:SafeArea(
+                child: SafeArea(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: Column(
@@ -54,13 +71,28 @@ class OrderDetails extends StatelessWidget {
                                   ),
                                   // AddButton(),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      CustomCustomerDetails(),
-                                      CustomDriverDetails(),
+                                      CustomCustomerDetails(
+                                        customerName: customerApartmentName,
+                                        customerPhone: '',
+                                      ),
+                                      CustomDriverDetails(
+                                        driverName: '',
+                                        driverPhone: '',
+                                        driverLorryPlateNumber: '',
+                                      ),
                                     ],
                                   ),
-                                  FuelOrderDetails(),
+                                  FuelOrderDetails(
+                                    date: date,
+                                    neighborhoodName: neighborhoodName,
+                                    locationDescription: locationDescription,
+                                    fuelTypeName: fuelTypeName,
+                                    finalQuantity: finalQuantity,
+                                    finalPrice: finalPrice,
+                                  ),
                                   // CustomLorriesTable(),
                                 ],
                               ),
@@ -71,7 +103,7 @@ class OrderDetails extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),//CustomOrdersTable()// OrderDetails(),
+                ), //CustomOrdersTable()// OrderDetails(),
               ),
             ],
           ),

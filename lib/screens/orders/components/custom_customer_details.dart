@@ -4,8 +4,8 @@ import 'package:system_admin_fuel_go/screens/orders/components/row_details.dart'
 import '../../constants.dart';
 
 class CustomCustomerDetails extends StatelessWidget {
-  const CustomCustomerDetails({Key? key}) : super(key: key);
-
+  const CustomCustomerDetails({Key? key,required this.customerName,required this.customerPhone}) : super(key: key);
+final String customerName,customerPhone;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,11 +41,11 @@ class CustomCustomerDetails extends StatelessWidget {
           ),
           RowDetails(
             title: 'اسم الزبون',
-            label: 'الاسم + الكنية',
+            label: customerName,
           ),
           RowDetails(
             title: 'رقم الهاتف',
-            label: '223322',
+            label: customerPhone,
           ),
         ],
       ),

@@ -9,7 +9,9 @@ import 'order_details.dart';
 import 'orders_controller.dart';
 
 class InProgressOrdersScreen extends GetView<OrdersController> {
-  InProgressOrdersScreen( {Key? key,}) : super(key: key);
+  InProgressOrdersScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,10 @@ class InProgressOrdersScreen extends GetView<OrdersController> {
                 ),
               Expanded(
                 flex: 5,
-                child:CustomOrdersTable( title: "جدول الطلبات قيد الانتظار",),//CustomOrdersTable()// OrderDetails(),
+                child: CustomOrdersTable(
+                  title: "جدول الطلبات قيد الانتظار",
+                  controller: controller,
+                ), //CustomOrdersTable()// OrderDetails(),
               ),
             ],
           ),
@@ -37,5 +42,4 @@ class InProgressOrdersScreen extends GetView<OrdersController> {
       ),
     );
   }
-
 }

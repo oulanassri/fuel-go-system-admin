@@ -24,7 +24,8 @@ class EditServiceScreen extends GetView<SettingsController> {
         backgroundColor: Colors.transparent,
         drawer: SideMenu(),
         body: SafeArea(
-          child: Row(spacing: defaultPadding,
+          child: Row(
+            spacing: defaultPadding,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (Responsive.isDesktop(context))
@@ -62,21 +63,15 @@ class EditServiceScreen extends GetView<SettingsController> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               CustomTextFormField(
-                                hintText: "اسم الخدمة",
-                                controller: controller.serviceNameController,
-                              ),
-                              CustomTextFormField(
                                 hintText: "سعر الخدمة",
-                                controller:
-                                controller.servicePriceController,
+                                controller: controller.servicePriceController,
                               ),
-
                               SizedBox(
                                 height: 40,
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.all(defaultPadding),
@@ -91,7 +86,9 @@ class EditServiceScreen extends GetView<SettingsController> {
                                     padding: EdgeInsets.all(defaultPadding),
                                     child: CustomMaterialButton(
                                       text: "تعديل",
-                                      function: () {},
+                                      function: () {
+                                        controller.editContantValue();
+                                      },
                                     ),
                                   )
                                 ],

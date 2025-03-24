@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
@@ -6,14 +8,16 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../models/fuel_details.dart';
 import '../../native_service/get_storage.dart';
+import '../../routes/app_routes.dart';
 import '../../utils/constants/api_constants.dart';
+import '../../utils/helpers/helper_functions.dart';
 
 class SettingsController extends GetxController {
   final String token = UserStorage.read('token');
 
-  late UserStorage storage;
   RxList fuelDetail = [].obs;
   var isLoading = false.obs;
+  late String fuelType;
 
   final serviceNameController = TextEditingController();
   final servicePriceController = TextEditingController();
@@ -67,7 +71,41 @@ class SettingsController extends GetxController {
       isLoading(false);
     }
   }
+  Future<void> editContantValue() async {
+    print("editContantValue");
+    try {
+      Map data = {
+        "key": fuelType,
+        "value": int.parse(servicePriceController.text)
+      };
+      print(data);
+      final response = await http.post(
+          Uri.parse(
+              '${APIConstants.baseUrl}${APIConstants.endPoints.editContantValue}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: json.encode([data]));
 
+      print("response.statusCode  ${response.statusCode}");
+      print("response.body  ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        fuelDetail.clear();
+        getFuelDetails();
+        THelperFunctions.showSnackBar(
+            message: 'تم تعديل الإعدادات', title: 'تعديل الإعدادات');
+        Get.toNamed(Routes.SETTINGS_SCREEN);
+      //  Get.toNamed(Routes.SETTINGS_SCREEN);
+      }
+      //getProperties();
+      //Get.back();
+      //THelperFunctions.showSnackBar(message: 'تم إضافة السيّارة', title: '');
+    } catch (e) {
+      print(e);
+    }
+  }
 // void setSelectedFuelType(String value){
 //   selectedFuelType.value = value;
 //

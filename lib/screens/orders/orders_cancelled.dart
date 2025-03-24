@@ -29,7 +29,7 @@ class CancelledOrdersScreen extends GetView<OrdersController> {
                 ),
               Expanded(
                 flex: 5,
-                child:CustomOrdersTable( title: "جدول الطلبات الملغاة",),//CustomOrdersTable()// OrderDetails(),
+                child:CustomOrdersTable( title: "جدول الطلبات الملغاة", controller: controller,),//CustomOrdersTable()// OrderDetails(),
               ),
             ],
           ),

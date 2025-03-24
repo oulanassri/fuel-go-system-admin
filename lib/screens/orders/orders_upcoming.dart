@@ -30,7 +30,7 @@ class UpcomingOrdersScreen extends GetView<OrdersController> {
                 ),
               Expanded(
                 flex: 5,
-                child:CustomOrdersTable(  title: 'جدول الطلبات القادمة',),//CustomOrdersTable()// OrderDetails(),
+                child:CustomOrdersTable(  title: 'جدول الطلبات القادمة', controller: controller,),//CustomOrdersTable()// OrderDetails(),
               ),
             ],
           ),

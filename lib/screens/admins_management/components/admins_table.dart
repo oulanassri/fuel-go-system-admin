@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:system_admin_fuel_go/models/centers.dart';
 
 import '../../../models/city.dart';
 import '../../constants.dart';
@@ -44,7 +45,7 @@ class AdminsTable extends StatelessWidget {
                           CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "اختر  المحافظة",
+                              "اختر  المركز",
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall,
@@ -52,14 +53,14 @@ class AdminsTable extends StatelessWidget {
                             DropdownButton<String>(
                               // updated
                                 onChanged: (String? newValue) {
-                                  controller.setSelectedCity(
+                                  controller.setSelectedCenter(
                                       newValue ?? '');
                                 },
-                                value: controller.selectedCity.value,
+                                value: controller.selectedCenter.value,
                                 onTap: () {}, //updated
                                 items: [
-                                  for (CityModel value
-                                  in controller.cities)
+                                  for (CentersModel value
+                                  in controller.centersList)
                                     DropdownMenuItem(
                                       value: value.name,
                                       child: Text(

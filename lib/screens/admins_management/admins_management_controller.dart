@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
 import '../../models/admin.dart';
-import '../../models/city.dart';
+import '../../models/centers.dart';
 import '../../native_service/get_storage.dart';
 import 'package:http/http.dart' as http;
 import '../../routes/app_routes.dart';
@@ -24,26 +24,27 @@ class AdminsManagementController extends GetxController {
   final plateNumberController = TextEditingController();
   RxString selectedShift = "shift1".obs;
   RxString selectedPlateNumber = "plate1".obs;
-  RxList cities = [].obs;
+ // RxList cities = [].obs;
   RxList admins = [].obs;
   var isLoading = false.obs;
-  RxString selectedCity = "دمشق".obs;
-  late RxInt selectedCityId = 1.obs;
+  RxString selectedCenter = "".obs;
+  late RxInt selectedCenterId = 1.obs;
+  List<CentersModel> centersList = [];
 
   @override
   void onInit() {
-    getCities();
+    getCenters();
     getAdmins();
     super.onInit();
   }
 
-  void setSelectedCity(String value) {
-    selectedCity.value = value;
+  void setSelectedCenter(String value) {
+    selectedCenter.value = value;
     //selectedCityId=id;
-    for (int i = 0; i < cities.length; i++) {
-      if (cities[i].name == value) {
-        print(cities[i].id);
-        selectedCityId.value = cities[i].id!;
+    for (int i = 0; i < centersList.length; i++) {
+      if (centersList[i].name == value) {
+        print(centersList[i].id);
+        selectedCenterId.value = centersList[i].id!;
         admins.clear();
         getAdmins();
       }
@@ -56,10 +57,9 @@ class AdminsManagementController extends GetxController {
 
   void setSelectedPlateNumber(String value) {
     selectedPlateNumber.value = value;
-    update();
   }
 
-  Future<void> getCities() async {
+  /*Future<void> getCities() async {
     print("getCities");
     try {
       isLoading(true);
@@ -84,15 +84,52 @@ class AdminsManagementController extends GetxController {
     } finally {
       isLoading(false);
     }
-  }
+  }*/
+  Future<void> getCenters() async {
 
+    print("getCenters");
+    try {  isLoading(true);
+    final response = await http.get(
+        Uri.parse('${APIConstants.baseUrl}${APIConstants.endPoints.getCenters}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        });
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      List<dynamic> body = json.decode(response.body);
+      centersList.clear();
+      for (int i = 0; i < body.length; i++) {
+        centersList.add(
+          CentersModel(
+            id: body[i]["id"],
+            neighborhoodName: body[i]["neighborhoodName"] ,
+            phone: body[i]["phone"],
+            name: body[i]["name"],
+            lat: body[i]["lat"],
+            long: body[i]["long"],
+            locationDescription: body[i]["locationDescription"],
+          ),
+        );
+      }
+      selectedCenter.value=centersList[0].name??"";
+      selectedCenterId.value=centersList[0].id!;
+      print(centersList[0].name);
+    } else {
+      throw Exception('Failed to load date: ${response.statusCode}');
+    }
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading(false);
+    }
+  }
   Future<void> getAdmins() async {
     print("getAdmins");
     try {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              '${APIConstants.baseUrl}${APIConstants.endPoints.getAdminsByCneter}?centerId=${selectedCityId.value}'),
+              '${APIConstants.baseUrl}${APIConstants.endPoints.getAdminsByCneter}?centerId=${selectedCenterId.value}'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
@@ -127,7 +164,7 @@ class AdminsManagementController extends GetxController {
         "name": nameController.text,
         "phone": phoneController.text,
         "email": emailController.text,
-        "centerId": selectedCityId.value
+        "centerId": selectedCenterId.value
       };
       print(data);
       final response  = await THttpHelper.post(

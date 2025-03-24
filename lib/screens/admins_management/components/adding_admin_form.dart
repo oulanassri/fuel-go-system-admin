@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:system_admin_fuel_go/models/centers.dart';
 
 import '../../../models/city.dart';
 import '../../constants.dart';
@@ -68,7 +69,7 @@ class AddingAdminForm extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "اختر  المحافظة",
+                                            "اختر  المركز",
                                             style: Theme
                                                 .of(context)
                                                 .textTheme
@@ -77,15 +78,15 @@ class AddingAdminForm extends StatelessWidget {
                                           DropdownButton<String>(
                                             // updated
                                               onChanged: (String? newValue) {
-                                                controller.setSelectedCity(
+                                                controller.setSelectedCenter(
                                                     newValue ?? '');
                                               },
-                                              value: controller.selectedCity
+                                              value: controller.selectedCenter
                                                   .value,
                                               onTap: () {}, //updated
                                               items: [
-                                                for (CityModel value
-                                                in controller.cities)
+                                                for (CentersModel value
+                                                in controller.centersList)
                                                   DropdownMenuItem(
                                                     value: value.name,
                                                     child: Text(

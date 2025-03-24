@@ -1,7 +1,7 @@
 /* -- LIST OF Constants used in APIs -- */
 
 class APIConstants {
-  static final String baseUrl = "http://192.168.7.17:5000";
+  static final String baseUrl = "http://172.201.110.216:5000";
 
   static _EndPoints endPoints=_EndPoints();
 
@@ -24,5 +24,6 @@ class _EndPoints{
   //Neighborhood
   final String getNeighborhood = "/api/Neighborhood/get-neighborhood"; //GET True
 
+  final String editContantValue = "/api/ConstantDictionary/edit-contant-value"; //GET True
 
 }

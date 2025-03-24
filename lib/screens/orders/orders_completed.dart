@@ -29,7 +29,7 @@ class CompletedOrdersScreen extends GetView<OrdersController> {
                 ),
               Expanded(
                 flex: 5,
-                child:CustomOrdersTable( title: "جدول الطلبات المكتملة",),//CustomOrdersTable()// OrderDetails(),
+                child:CustomOrdersTable( title: "جدول الطلبات المكتملة", controller: controller,),//CustomOrdersTable()// OrderDetails(),
               ),
             ],
           ),
