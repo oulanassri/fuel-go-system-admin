@@ -37,7 +37,13 @@ class AdminsManagementController extends GetxController {
     getAdmins();
     super.onInit();
   }
-
+  @override
+  void onReady() {
+    // getCurrentLocation();
+    getCenters();
+    getAdmins();
+    super.onReady();
+  }
   void setSelectedCenter(String value) {
     selectedCenter.value = value;
     //selectedCityId=id;
@@ -137,7 +143,7 @@ class AdminsManagementController extends GetxController {
           });
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<dynamic> body = json.decode(response.body);
-
+        admins.clear();
         for (int i = 0; i < body.length; i++) {
           admins.add(AdminModel(
             id: body[i]["id"],

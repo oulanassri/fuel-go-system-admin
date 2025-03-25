@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import '../../models/fuel_details.dart';
+import '../../models/constant_values.dart';
 import '../../native_service/get_storage.dart';
 import '../../routes/app_routes.dart';
 import '../../utils/constants/api_constants.dart';
@@ -15,9 +15,9 @@ import '../../utils/helpers/helper_functions.dart';
 class SettingsController extends GetxController {
   final String token = UserStorage.read('token');
 
-  RxList fuelDetail = [].obs;
+  RxList constantValues = [].obs;
   var isLoading = false.obs;
-  late String fuelType;
+  late String constantValuesKey;
 
   final serviceNameController = TextEditingController();
   final servicePriceController = TextEditingController();
@@ -28,23 +28,27 @@ class SettingsController extends GetxController {
 
   @override
   void onInit() {
-    getFuelDetails();
+    getConstantValues();
     super.onInit();
   }
-
+  @override
+  void onReady() {
+    getConstantValues();
+    super.onReady();
+  }
   Future pickTime(BuildContext context) async {
     final initialTime = TimeOfDay(hour: 7, minute: 30);
     final newTime = await showTimePicker(
         context: context, initialTime: time ?? initialTime);
   }
 
-  Future<void> getFuelDetails() async {
-    print("getFuelDetails");
+  Future<void> getConstantValues() async {
+    print("getConstantValues");
     try {
       isLoading(true);
       final response = await http.get(
           Uri.parse(
-              '${APIConstants.baseUrl}${APIConstants.endPoints.getFuelDetails}'),
+              '${APIConstants.baseUrl}${APIConstants.endPoints.getConstantValues}'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
@@ -52,16 +56,15 @@ class SettingsController extends GetxController {
           });
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<dynamic> body = json.decode(response.body);
-
+        constantValues.clear();
         for (int i = 0; i < body.length; i++) {
-          fuelDetail.add(FuelDetailsModel(
+          constantValues.add(ConstantValuesModel(
             id: body[i]["id"],
-            fuelTypeName: body[i]["fuelTypeName"],
-            centerName: body[i]["centerName"],
-            price: body[i]["price"],
+            key: body[i]["key"],
+            value: body[i]["value"],
           ));
         }
-        print(fuelDetail[0].name);
+        print(constantValues[0].name);
       } else {
         throw Exception('Failed to load date: ${response.statusCode}');
       }
@@ -75,7 +78,7 @@ class SettingsController extends GetxController {
     print("editContantValue");
     try {
       Map data = {
-        "key": fuelType,
+        "key": constantValuesKey,
         "value": int.parse(servicePriceController.text)
       };
       print(data);
@@ -92,8 +95,8 @@ class SettingsController extends GetxController {
       print("response.body  ${response.body}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        fuelDetail.clear();
-        getFuelDetails();
+        constantValues.clear();
+        getConstantValues();
         THelperFunctions.showSnackBar(
             message: 'تم تعديل الإعدادات', title: 'تعديل الإعدادات');
         Get.toNamed(Routes.SETTINGS_SCREEN);

@@ -47,7 +47,14 @@ class CentersManagementController extends GetxController {
     getNeighborhood(cityId: 1);
     super.onInit();
   }
-
+   @override
+   void onReady() {
+     // getCurrentLocation();
+     getCenters();
+     getCities();
+     getNeighborhood(cityId: 1);
+     super.onReady();
+   }
   void setSelectedCity(String value) {
     selectedCity.value = value;
     //selectedCityId=id;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../../models/fuel_details.dart';
+import '../../../models/constant_values.dart';
 import '../../../models/service.dart';
 import '../../../routes/app_routes.dart';
 import '../../common_components/custom_material_button.dart';
@@ -81,7 +81,7 @@ class CustomSettingsTable extends StatelessWidget {
                                   ),
                                   DataColumn(
                                     label: Text(
-                                      "اسم المركز",
+                                      "اسم الخدمة",
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge,
@@ -89,26 +89,19 @@ class CustomSettingsTable extends StatelessWidget {
                                   ),
                                   DataColumn(
                                     label: Text(
-                                      "نوع الوقود",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      "السعر",
+                                      "القيمة",
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleLarge,
                                     ),
                                   ),
 
+
                                 ],
                                 rows: List.generate(
-                                  controller.fuelDetail.length,
+                                  controller.constantValues.length,
                                   (index) =>
-                                      serviceDataRow(controller.fuelDetail[index], context),
+                                      serviceDataRow(controller.constantValues[index], context),
                                 ),
                               ),
                             ),
@@ -128,37 +121,32 @@ class CustomSettingsTable extends StatelessWidget {
     );
   }
 
-  DataRow serviceDataRow(FuelDetailsModel fuelDetailsModel, BuildContext context) {
+  DataRow serviceDataRow(ConstantValuesModel constantValuesModel, BuildContext context) {
     return DataRow(
       onLongPress: (){
-        controller.fuelType=fuelDetailsModel.fuelTypeName!;
+        controller.constantValuesKey=constantValuesModel.key!;
         Get.toNamed(Routes.EDIT_SERVICE_SCREEN);
       },
       cells: [
         DataCell(
           Text(
-            fuelDetailsModel.id.toString() ?? "",
+            constantValuesModel.id.toString() ?? "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
         DataCell(
           Text(
-            fuelDetailsModel.centerName ?? "",
+            constantValuesModel.key ?? "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
         DataCell(
           Text(
-            fuelDetailsModel.fuelTypeName ?? "",
+            constantValuesModel.value.toString() ?? "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
-        DataCell(
-          Text(
-            fuelDetailsModel.price.toString() ?? "",
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
+
       ],
     );
   }
