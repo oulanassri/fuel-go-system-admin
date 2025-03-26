@@ -74,8 +74,8 @@ class SettingsController extends GetxController {
       isLoading(false);
     }
   }
-  Future<void> editContantValue() async {
-    print("editContantValue");
+  Future<void> editConstantValue() async {
+    print("editConstantValue");
     try {
       Map data = {
         "key": constantValuesKey,
@@ -84,7 +84,7 @@ class SettingsController extends GetxController {
       print(data);
       final response = await http.post(
           Uri.parse(
-              '${APIConstants.baseUrl}${APIConstants.endPoints.editContantValue}'),
+              '${APIConstants.baseUrl}${APIConstants.endPoints.editConstantValue}'),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'

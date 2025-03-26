@@ -87,7 +87,7 @@ class EditServiceScreen extends GetView<SettingsController> {
                                     child: CustomMaterialButton(
                                       text: "تعديل",
                                       function: () {
-                                        controller.editContantValue();
+                                        controller.editConstantValue();
                                       },
                                     ),
                                   )

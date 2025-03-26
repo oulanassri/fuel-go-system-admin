@@ -24,6 +24,6 @@ class _EndPoints{
   //Neighborhood
   final String getNeighborhood = "/api/Neighborhood/get-neighborhood"; //GET True
 
-  final String editContantValue = "/api/ConstantDictionary/edit-contant-value"; //GET True
+  final String editConstantValue = "/api/ConstantDictionary/edit-constant-value"; //GET True
 
 }

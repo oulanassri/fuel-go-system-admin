@@ -177,10 +177,12 @@ class AdminsManagementController extends GetxController {
           endpoint: APIConstants.endPoints.addAdmin, data: data);
       http.Response response1=response as http.Response;
       if (response1.statusCode == 201 || response1.statusCode == 200) {
-        print("response.statusCode ${response1.statusCode}");
+       // print("response.statusCode ${response1.statusCode}");
         nameController.clear();
         phoneController.clear();
         emailController.clear();
+        getAdmins();
+        Get.toNamed(Routes.ADMINS_MANAGEMENT);
         THelperFunctions.showSnackBar(
             message: "تم المسؤول", title: "إضافة مسؤول");
         // return json.decode(response1.body);
@@ -194,8 +196,7 @@ class AdminsManagementController extends GetxController {
       }
     } finally {
 
-      getAdmins();
-      Get.toNamed(Routes.ADMINS_MANAGEMENT);
+
     }
   }
 }
