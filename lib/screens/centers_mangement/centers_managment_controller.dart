@@ -231,19 +231,26 @@ class CentersManagementController extends GetxController {
         "locationDescription": locationDetailsController.text
       };
       print(data);
-      final response  = await THttpHelper.post(
-          endpoint: APIConstants.endPoints.addCenter, data: data);
-      http.Response response1=response as http.Response;
-      if (response1.statusCode == 201 || response1.statusCode == 200) {
-        print("response.statusCode ${response1.statusCode}");
+      final response = await http.post(
+          Uri.parse(
+              '${APIConstants.baseUrl}${APIConstants.endPoints.addCenter}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: json.encode(data));
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        print("response.statusCode ${response.statusCode}");
         centerPhoneController.clear();
         centerNameController.clear();
         locationDetailsController.clear();
         THelperFunctions.showSnackBar(
-            message: "تم إضافة المركز", title: "إضافة مركز");
+            message: "تم إضافة المركز بنجاح", title: "إضافة مركز");
        // return json.decode(response1.body);
       } else {
-        throw Exception('Failed to load date: ${response1.statusCode}');
+        print('Failed to load date: ${response.body}');
+        throw Exception('Failed to load date: ${response.statusCode}');
       }
 
     } catch (e) {

@@ -24,7 +24,8 @@ class AdminsManagementController extends GetxController {
   final plateNumberController = TextEditingController();
   RxString selectedShift = "shift1".obs;
   RxString selectedPlateNumber = "plate1".obs;
- // RxList cities = [].obs;
+
+  // RxList cities = [].obs;
   RxList admins = [].obs;
   var isLoading = false.obs;
   RxString selectedCenter = "".obs;
@@ -37,6 +38,7 @@ class AdminsManagementController extends GetxController {
     getAdmins();
     super.onInit();
   }
+
   @override
   void onReady() {
     // getCurrentLocation();
@@ -44,6 +46,7 @@ class AdminsManagementController extends GetxController {
     getAdmins();
     super.onReady();
   }
+
   void setSelectedCenter(String value) {
     selectedCenter.value = value;
     //selectedCityId=id;
@@ -92,43 +95,45 @@ class AdminsManagementController extends GetxController {
     }
   }*/
   Future<void> getCenters() async {
-
     print("getCenters");
-    try {  isLoading(true);
-    final response = await http.get(
-        Uri.parse('${APIConstants.baseUrl}${APIConstants.endPoints.getCenters}'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
-        });
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      List<dynamic> body = json.decode(response.body);
-      centersList.clear();
-      for (int i = 0; i < body.length; i++) {
-        centersList.add(
-          CentersModel(
-            id: body[i]["id"],
-            neighborhoodName: body[i]["neighborhoodName"] ,
-            phone: body[i]["phone"],
-            name: body[i]["name"],
-            lat: body[i]["lat"],
-            long: body[i]["long"],
-            locationDescription: body[i]["locationDescription"],
-          ),
-        );
+    try {
+      isLoading(true);
+      final response = await http.get(
+          Uri.parse(
+              '${APIConstants.baseUrl}${APIConstants.endPoints.getCenters}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          });
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> body = json.decode(response.body);
+        centersList.clear();
+        for (int i = 0; i < body.length; i++) {
+          centersList.add(
+            CentersModel(
+              id: body[i]["id"],
+              neighborhoodName: body[i]["neighborhoodName"],
+              phone: body[i]["phone"],
+              name: body[i]["name"],
+              lat: body[i]["lat"],
+              long: body[i]["long"],
+              locationDescription: body[i]["locationDescription"],
+            ),
+          );
+        }
+        selectedCenter.value = centersList[0].name ?? "";
+        selectedCenterId.value = centersList[0].id!;
+        print(centersList[0].name);
+      } else {
+        throw Exception('Failed to load date: ${response.statusCode}');
       }
-      selectedCenter.value=centersList[0].name??"";
-      selectedCenterId.value=centersList[0].id!;
-      print(centersList[0].name);
-    } else {
-      throw Exception('Failed to load date: ${response.statusCode}');
-    }
     } catch (e) {
       print(e);
     } finally {
       isLoading(false);
     }
   }
+
   Future<void> getAdmins() async {
     print("getAdmins");
     try {
@@ -139,7 +144,6 @@ class AdminsManagementController extends GetxController {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
-
           });
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<dynamic> body = json.decode(response.body);
@@ -173,30 +177,33 @@ class AdminsManagementController extends GetxController {
         "centerId": selectedCenterId.value
       };
       print(data);
-      final response  = await THttpHelper.post(
-          endpoint: APIConstants.endPoints.addAdmin, data: data);
-      http.Response response1=response as http.Response;
-      if (response1.statusCode == 201 || response1.statusCode == 200) {
-       // print("response.statusCode ${response1.statusCode}");
+
+      final response = await http.post(
+          Uri.parse(
+              '${APIConstants.baseUrl}${APIConstants.endPoints.addAdmin}'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: json.encode(data));
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        // print("response.statusCode ${response1.statusCode}");
         nameController.clear();
         phoneController.clear();
         emailController.clear();
         getAdmins();
         Get.toNamed(Routes.ADMINS_MANAGEMENT);
         THelperFunctions.showSnackBar(
-            message: "تم المسؤول", title: "إضافة مسؤول");
+            message: "تم إضافة المسؤول بنجاح", title: "إضافة مسؤول");
         // return json.decode(response1.body);
       } else {
-        throw Exception('Failed to load date: ${response1.statusCode}');
+        throw Exception('Failed to load date: ${response.statusCode}');
       }
-
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-    } finally {
-
-
-    }
+    } finally {}
   }
 }
