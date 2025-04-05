@@ -8,10 +8,12 @@ import 'admins_management_controller.dart';
 import 'components/admins_table.dart';
 
 class AdminsManagementScreen extends StatelessWidget {
-  const AdminsManagementScreen({Key? key}) : super(key: key);
+   AdminsManagementScreen({Key? key}) : super(key: key);
+  AdminsManagementController controller=  Get.find<AdminsManagementController>();
 
   @override
   Widget build(BuildContext context) {
+    controller.getCenters();
     return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
       child: Scaffold(backgroundColor: Colors.transparent,
@@ -20,13 +22,13 @@ class AdminsManagementScreen extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (Responsive.isDesktop(context))
+              if (Responsive.isDesktop(context)||Responsive.isTablet(context))
                 Expanded(
                   child: SideMenu(),
                 ),
               Expanded(
                 flex: 5,
-                child: AdminsTable(),
+                child: AdminsTable(controller: controller,),
               ),
             ],
           ),

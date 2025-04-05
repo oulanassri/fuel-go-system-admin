@@ -22,7 +22,7 @@ class CentersManagementScreen extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (Responsive.isDesktop(context))
+              if (Responsive.isDesktop(context)||Responsive.isTablet(context))
                 Expanded(
                   child: SideMenu(),
                 ),

@@ -1,15 +1,15 @@
 class TValidator {
-  static String? validateEmail(String? value) {
+  static bool validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Email is required';
+      return false;
     }
 
     // Regular expression for email validation
     final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegExp.hasMatch(value)) {
-      return 'Invalid email address';
+      return false;
     }
-    return null;
+    return true;
   }
 
   static String? validatePassword(String? value) {
@@ -35,9 +35,9 @@ class TValidator {
     return null;
   }
 
-  static String? validatePhoneNumber(String?value) {
+  static bool validatePhoneNumber(String?value) {
     if (value == null || value.isEmpty) {
-      return 'Phone number is required.';
+      return false;
     }
 
 
@@ -45,9 +45,9 @@ class TValidator {
     final phoneRegExp = RegExp(r'^\d{10}');
 
     if (!phoneRegExp.hasMatch(value)) {
-      return 'Invalid phone number format (10 digits required).';
+      return false;
     }
-    return null;
+    return true;
   }
   //Add more custom validators as needed for your specific requirements
 }

@@ -101,11 +101,14 @@ class SettingsController extends GetxController {
             message: 'تم تعديل الإعدادات', title: 'تعديل الإعدادات');
         Get.toNamed(Routes.SETTINGS_SCREEN);
       //  Get.toNamed(Routes.SETTINGS_SCREEN);
-      }
+      }else{THelperFunctions.showSnackBar(
+          message: "حدث خطأ أثناء تعديل الإعدادات", title: "تعديل الإعدادات");}
       //getProperties();
       //Get.back();
       //THelperFunctions.showSnackBar(message: 'تم إضافة السيّارة', title: '');
     } catch (e) {
+      THelperFunctions.showSnackBar(
+          message: "حدث خطأ أثناء تعديل الإعدادات", title: "تعديل الإعدادات");
       print(e);
     }
   }

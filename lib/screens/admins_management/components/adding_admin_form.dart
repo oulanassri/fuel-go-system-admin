@@ -7,6 +7,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:system_admin_fuel_go/models/centers.dart';
 
 import '../../../models/city.dart';
+import '../../../utils/helpers/helper_functions.dart';
+import '../../../utils/validators/validation.dart';
 import '../../constants.dart';
 import '../../common_components/header.dart';
 import '../../centers_mangement/components/custom_centers_table.dart';
@@ -18,8 +20,7 @@ import '../admins_management_controller.dart';
 import 'add_button1.dart';
 
 class AddingAdminForm extends StatelessWidget {
-  const AddingAdminForm({Key? key, required this.controller})
-      : super(key: key);
+  const AddingAdminForm({Key? key, required this.controller}) : super(key: key);
   final AdminsManagementController controller;
 
   @override
@@ -63,43 +64,40 @@ class AddingAdminForm extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Obx(
-                                      () =>
-                                      Column(
-                                        crossAxisAlignment:
+                                  () => Column(
+                                    crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "اختر  المركز",
-                                            style: Theme
-                                                .of(context)
-                                                .textTheme
-                                                .titleSmall,
-                                          ),
-                                          DropdownButton<String>(
-                                            // updated
-                                              onChanged: (String? newValue) {
-                                                controller.setSelectedCenter(
-                                                    newValue ?? '');
-                                              },
-                                              value: controller.selectedCenter
-                                                  .value,
-                                              onTap: () {}, //updated
-                                              items: [
-                                                for (CentersModel value
-                                                in controller.centersList)
-                                                  DropdownMenuItem(
-                                                    value: value.name,
-                                                    child: Text(
-                                                      value.name ?? "",
-                                                      style: Theme
-                                                          .of(context)
-                                                          .textTheme
-                                                          .bodyLarge, //updated
-                                                    ),
-                                                  ),
-                                              ]),
-                                        ],
+                                    children: [
+                                      Text(
+                                        "اختر  المركز",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
                                       ),
+                                      DropdownButton<String>(
+                                          // updated
+                                          onChanged: (String? newValue) {
+                                            controller.setSelectedCenter(
+                                                newValue ?? '');
+                                          },
+                                          value:
+                                              controller.selectedCenter.value,
+                                          onTap: () {}, //updated
+                                          items: [
+                                            for (CentersModel value
+                                                in controller.centersList)
+                                              DropdownMenuItem(
+                                                value: value.name,
+                                                child: Text(
+                                                  value.name ?? "",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge, //updated
+                                                ),
+                                              ),
+                                          ]),
+                                    ],
+                                  ),
                                 ),
                                 CustomTextFormField(
                                   hintText: "الاسم ",
@@ -114,28 +112,41 @@ class AddingAdminForm extends StatelessWidget {
                                   controller: controller.phoneController,
                                 ),
 
-
                                 /* SizedBox(
                                   height: 40,
                                 ),*/
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        text: "إلغاء", function: () {
-                                        Get.back();
-                                      },
+                                        text: "إلغاء",
+                                        function: () {
+                                          Get.back();
+                                        },
                                       ),
                                     ),
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
                                       child: CustomMaterialButton(
-                                        text: "إضافة", function: () {
-                                        controller.addAdmin();
-                                      },
+                                        text: "إضافة",
+                                        function: () {
+                                          if (TValidator.validateEmail(
+                                                  controller
+                                                      .emailController.text) &&
+                                              TValidator.validatePhoneNumber(
+                                                  controller
+                                                      .phoneController.text)) {
+                                            controller.addAdmin();
+                                          } else {
+                                            THelperFunctions.showSnackBar(
+                                                title  :
+                                                    "رسالة خطأ",
+                                                message: "يُرجى ملء الخانات بشكل صحيح");
+                                          }
+                                        },
                                       ),
                                     ),
                                   ],

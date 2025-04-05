@@ -51,6 +51,10 @@ class LoginScreen extends GetView<LoginController> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Text(
+                          "System Admin Login",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
                         CustomTextFormField(
                           hintText: "رقم الهاتف",
                           controller: controller.mobileNumberController,
@@ -97,7 +101,24 @@ class LoginScreen extends GetView<LoginController> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(defaultPadding),
-                          child: CustomMaterialButton(
+                          child: Obx(()=>controller.isLoading.value
+                              ? MaterialButton(
+                            onPressed: () {},
+                            height: 50,
+                            // margin: EdgeInsets.symmetric(horizontal: 50),
+                            color: primaryButton,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            // decoration: BoxDecoration(
+                            // ),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: primaryColor,
+                              ),
+                            ),
+                          )
+                              : CustomMaterialButton(
 
                             text: "تسجيل دخول",
                             function: () {
@@ -105,7 +126,7 @@ class LoginScreen extends GetView<LoginController> {
                               print("login button");
                              controller.login();
                             },
-                          ),
+                          ),),
                         )
                       ],
                     ),

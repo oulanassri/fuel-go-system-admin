@@ -248,12 +248,15 @@ class CentersManagementController extends GetxController {
         THelperFunctions.showSnackBar(
             message: "تم إضافة المركز بنجاح", title: "إضافة مركز");
        // return json.decode(response1.body);
-      } else {
+      } else {    THelperFunctions.showSnackBar(
+          message: "حدث خطأ أثناء إضافة المركز", title: "إضافة مركز");
         print('Failed to load date: ${response.body}');
         throw Exception('Failed to load date: ${response.statusCode}');
       }
 
     } catch (e) {
+      THelperFunctions.showSnackBar(
+          message: "حدث خطأ أثناء إضافة المركز", title: "إضافة مركز");
       if (kDebugMode) {
         print(e);
       }

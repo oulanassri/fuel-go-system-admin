@@ -6,6 +6,7 @@ import 'package:system_admin_fuel_go/screens/constants.dart';
 
 import '../../native_service/get_storage.dart';
 import '../../routes/app_routes.dart';
+import '../admins_management/admins_management_controller.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -37,7 +38,12 @@ class SideMenu extends StatelessWidget {
             DrawerListTile(
               title: 'إدارة المسؤولين',
               svgSrc: 'assets/icons/menu_doc.svg',
-              press: () { Get.toNamed(Routes.ADMINS_MANAGEMENT);},
+              press: () {
+                AdminsManagementController controller = Get.put(AdminsManagementController());
+                controller.getCenters();
+                controller.getAdmins();
+
+                Get.toNamed(Routes.ADMINS_MANAGEMENT);},
             ),
 
             DrawerListTile(

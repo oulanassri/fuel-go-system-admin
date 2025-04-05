@@ -35,22 +35,29 @@ class OrdersController extends GetxController {
           });
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<dynamic> body = json.decode(response.body);
-
+        print("response.statusCode ${response.statusCode}");
+        print("response.statusCode ${response.body}");
         for (int i = 0; i < body.length; i++) {
           orders.add(
             OrdersModel(
-              date: body[i]["date"],
-              orderNumber: body[i]["orderNumber"],
-              locationDescription: body[i]["locationDescription"],
-              neighborhoodName: body[i]["neighborhoodName"],
-              fuelTypeName: body[i]["fuelTypeName"],
-              orderedQuantity: body[i]["orderedQuantity"],
-              price: body[i]["price"],
-              finalQuantity: body[i]["finalQuantity"],
-              finalPrice: body[i]["finalPrice"],
-              customerCarBrand: body[i]["customerCarBrand"],
-              customerApartmentName: body[i]["customerApartmentName"],
-              authCode: body[i]["authCode"],
+              date: body[i]["date"].toString(),
+              orderNumber: body[i]["orderNumber"].toString(),
+              locationDescription: body[i]["locationDescription"].toString(),
+              neighborhoodName: body[i]["neighborhoodName"].toString(),
+              fuelTypeName: body[i]["fuelTypeName"].toString(),
+              orderedQuantity: body[i]["orderedQuantity"].toString(),
+              price: body[i]["price"].toString(),
+              finalQuantity: body[i]["finalQuantity"].toString(),
+              finalPrice: body[i]["finalPrice"].toString(),
+              customerCarBrand: body[i]["customerCarBrand"].toString(),
+              customerApartmentName: body[i]["customerApartmentName"].toString(),
+              authCode: body[i]["authCode"].toString(),
+              statusName: body[i]["statusName"].toString(),
+              customerName:  body[i]["customerName"].toString(),
+              customerPhone:  body[i]["customerPhone"].toString(),
+              driverName:  body[i]["driverName"].toString(),
+              driverPhone:  body[i]["driverPhone"].toString(),
+              deliveryFee: body[i]["deliveryFee"].toString(),
             ),
           );
         }

@@ -30,7 +30,7 @@ class AdminsManagementController extends GetxController {
   var isLoading = false.obs;
   RxString selectedCenter = "".obs;
   late RxInt selectedCenterId = 1.obs;
-  List<CentersModel> centersList = [];
+  List centersList = [].obs;
 
   @override
   void onInit() {
@@ -68,32 +68,7 @@ class AdminsManagementController extends GetxController {
     selectedPlateNumber.value = value;
   }
 
-  /*Future<void> getCities() async {
-    print("getCities");
-    try {
-      isLoading(true);
-      final response = await http.get(
-          Uri.parse(
-              '${APIConstants.baseUrl}${APIConstants.endPoints.getCities}'),
-          headers: {
-            'Content-Type': 'application/json',
-          });
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        List<dynamic> body = json.decode(response.body);
 
-        for (int i = 0; i < body.length; i++) {
-          cities.add(CityModel(id: body[i]["id"], name: body[i]["name"]));
-        }
-        print(cities[0].name);
-      } else {
-        throw Exception('Failed to load date: ${response.statusCode}');
-      }
-    } catch (e) {
-      print(e);
-    } finally {
-      isLoading(false);
-    }
-  }*/
   Future<void> getCenters() async {
     print("getCenters");
     try {
@@ -123,7 +98,7 @@ class AdminsManagementController extends GetxController {
         }
         selectedCenter.value = centersList[0].name ?? "";
         selectedCenterId.value = centersList[0].id!;
-        print(centersList[0].name);
+        print("centersList length ${centersList.length}");
       } else {
         throw Exception('Failed to load date: ${response.statusCode}');
       }
@@ -198,9 +173,13 @@ class AdminsManagementController extends GetxController {
             message: "تم إضافة المسؤول بنجاح", title: "إضافة مسؤول");
         // return json.decode(response1.body);
       } else {
+        THelperFunctions.showSnackBar(
+            message: "حدث خطأ أثناء إضافة المسؤول", title: "إضافة مسؤول");
         throw Exception('Failed to load date: ${response.statusCode}');
       }
     } catch (e) {
+      THelperFunctions.showSnackBar(
+          message: "حدث خطأ أثناء إضافة المسؤول", title: "إضافة مسؤول");
       if (kDebugMode) {
         print(e);
       }

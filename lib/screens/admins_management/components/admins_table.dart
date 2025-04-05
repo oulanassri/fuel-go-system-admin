@@ -12,12 +12,12 @@ import 'add_button1.dart';
 import 'custom_admins_table.dart';
 
 class AdminsTable extends StatelessWidget {
-   AdminsTable({Key? key,}) : super(key: key);
-   AdminsManagementController controller=  Get.put(AdminsManagementController());
+   AdminsTable({Key? key,required this.controller}) : super(key: key);
+   AdminsManagementController controller;
 
    @override
   Widget build(BuildContext context) {
-
+     controller.getCenters();
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(defaultPadding),

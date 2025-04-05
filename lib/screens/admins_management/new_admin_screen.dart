@@ -8,11 +8,13 @@ import 'admins_management_controller.dart';
 import 'components/adding_admin_form.dart';
 
 class NewAdminScreen extends GetView<AdminsManagementController> {
-  const NewAdminScreen({Key? key}) : super(key: key);
+   NewAdminScreen({Key? key}) : super(key: key);
+  @override
+  AdminsManagementController controller=  Get.find<AdminsManagementController>();
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AdminsManagementController());
+    controller.getCenters();
     return Container(
       decoration: BoxDecoration(gradient: gradientColorBg),
       child: Scaffold(backgroundColor: Colors.transparent,
@@ -21,7 +23,7 @@ class NewAdminScreen extends GetView<AdminsManagementController> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (Responsive.isDesktop(context))
+              if (Responsive.isDesktop(context)||Responsive.isTablet(context))
                 Expanded(
                   child: SideMenu(),
                 ),

@@ -16,8 +16,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (!Responsive.isDesktop(context))
-          IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+
         if (!Responsive.isMobile(context))
           Text(
             title,
