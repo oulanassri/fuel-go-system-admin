@@ -54,7 +54,7 @@ final String title;
                         ),
                         child: Obx(() => controller.isLoading.value
                             ? Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(color: primaryColor,),
                         )
                             : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -39,3 +39,66 @@ class NewCenterScreen extends GetView<CentersManagementController> {
     );
   }
 }
+/*
+ if(controller.latitude==0) {
+                                        THelperFunctions.showSnackBar(
+                                            message:
+                                            "يُرجى اختيار موقع من المواقع المقترحة في الحقل السّابق",
+                                            title: "رسالة خطأ");
+                                      } */
+/*function: () {
+                                          if (TValidator.isValidateName(
+                                                  controller
+                                                      .centerNameController
+                                                      .text) &&
+                                              TValidator.isValidatePhoneNumber(
+                                                  controller
+                                                      .centerPhoneController
+                                                      .text) &&
+                                              (controller
+                                                      .locationDetailsController
+                                                      .text
+                                                      .length >
+                                                  2) &&
+                                              (controller.longitude > 0 )) {
+                                            controller.addCenter();
+                                          } else {
+                                            String? message1 = "",
+                                                message2 = "",
+                                                message3 = "",message4="";
+                                            if (!(TValidator.isValidateName(
+                                                controller.centerNameController
+                                                    .text))) {
+                                              message1 =
+                                                  TValidator.validateName(
+                                                      controller
+                                                          .centerNameController
+                                                          .text);
+                                            }
+                                            if (!(TValidator
+                                                .isValidatePhoneNumber(
+                                                    controller
+                                                        .centerPhoneController
+                                                        .text))) {
+                                              message2 = TValidator
+                                                  .validatePhoneNumber(
+                                                      controller
+                                                          .centerPhoneController
+                                                          .text);
+                                            }
+                                            if ((controller
+                                                    .locationDetailsController
+                                                    .text
+                                                    .length <
+                                                6)) {
+                                              message3 =
+                                                  "العنوان قصير جدا و غير واضح";
+                                            }
+                                            if(controller.longitude== 0)
+                                              message4="longitude== 0";
+                                            THelperFunctions.showSnackBar(
+                                                title: "رسالة خطأ",
+                                                message:
+                                                    "$message1 , $message2 , $message3 , $message4");
+                                          }
+                                        },*/

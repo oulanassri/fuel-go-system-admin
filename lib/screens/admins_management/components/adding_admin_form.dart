@@ -64,40 +64,43 @@ class AddingAdminForm extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Obx(
-                                  () => Column(
-                                    crossAxisAlignment:
+                                      () =>
+                                      Column(
+                                        crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "اختر  المركز",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
-                                      ),
-                                      DropdownButton<String>(
-                                          // updated
-                                          onChanged: (String? newValue) {
-                                            controller.setSelectedCenter(
-                                                newValue ?? '');
-                                          },
-                                          value:
+                                        children: [
+                                          Text(
+                                            "اختر  المركز",
+                                            style: Theme
+                                                .of(context)
+                                                .textTheme
+                                                .titleSmall,
+                                          ),
+                                          DropdownButton<String>(
+                                            // updated
+                                              onChanged: (String? newValue) {
+                                                controller.setSelectedCenter(
+                                                    newValue ?? '');
+                                              },
+                                              value:
                                               controller.selectedCenter.value,
-                                          onTap: () {}, //updated
-                                          items: [
-                                            for (CentersModel value
+                                              onTap: () {}, //updated
+                                              items: [
+                                                for (CentersModel value
                                                 in controller.centersList)
-                                              DropdownMenuItem(
-                                                value: value.name,
-                                                child: Text(
-                                                  value.name ?? "",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge, //updated
-                                                ),
-                                              ),
-                                          ]),
-                                    ],
-                                  ),
+                                                  DropdownMenuItem(
+                                                    value: value.name,
+                                                    child: Text(
+                                                      value.name ?? "",
+                                                      style: Theme
+                                                          .of(context)
+                                                          .textTheme
+                                                          .bodyLarge, //updated
+                                                    ),
+                                                  ),
+                                              ]),
+                                        ],
+                                      ),
                                 ),
                                 CustomTextFormField(
                                   hintText: "الاسم ",
@@ -117,7 +120,7 @@ class AddingAdminForm extends StatelessWidget {
                                 ),*/
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.all(defaultPadding),
@@ -133,18 +136,49 @@ class AddingAdminForm extends StatelessWidget {
                                       child: CustomMaterialButton(
                                         text: "إضافة",
                                         function: () {
-                                          if (TValidator.validateEmail(
+                                          if (TValidator.isValidateEmail(
+                                              controller
+                                                  .emailController.text) &&
+                                              TValidator.isValidatePhoneNumber(
                                                   controller
-                                                      .emailController.text) &&
-                                              TValidator.validatePhoneNumber(
-                                                  controller
-                                                      .phoneController.text)) {
+                                                      .phoneController.text) &&
+                                              TValidator.isValidateName(controller.nameController.text
+                                                  )) {
                                             controller.addAdmin();
                                           } else {
+                                            String? message1 = "",
+                                                message2 = "",
+                                                message3 = "";
+                                            if (!(TValidator.isValidateEmail(
+                                                controller
+                                                    .emailController.text))) {
+                                              message1 =
+                                                  TValidator.validateEmail(
+                                                      controller.emailController
+                                                          .text);
+                                            }
+                                            if (!(TValidator
+                                                .isValidatePhoneNumber(
+                                                controller.phoneController
+                                                    .text))) {
+                                              message2 = TValidator
+                                                  .validatePhoneNumber(
+                                                  controller.phoneController
+                                                      .text);
+                                            }
+                                            if (!(TValidator
+                                                .isValidateName(
+                                                controller.nameController
+                                                    .text))) {
+                                              message3 = TValidator
+                                                  .validateName(
+                                                  controller.nameController
+                                                      .text);
+                                            }
                                             THelperFunctions.showSnackBar(
-                                                title  :
-                                                    "رسالة خطأ",
-                                                message: "يُرجى ملء الخانات بشكل صحيح");
+                                                title: "رسالة خطأ",
+                                                message:
+                                                "$message1 , $message2 , $message3");
                                           }
                                         },
                                       ),

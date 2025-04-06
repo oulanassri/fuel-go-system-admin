@@ -1,5 +1,5 @@
 class TValidator {
-  static bool validateEmail(String? value) {
+  static bool isValidateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return false;
     }
@@ -11,7 +11,18 @@ class TValidator {
     }
     return true;
   }
+  static String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'الإيميل مطلوب';
+    }
 
+    // Regular expression for email validation
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegExp.hasMatch(value)) {
+      return 'الإيميل غير صحيح';
+    }
+    return null;
+  }
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Password is required';
@@ -35,19 +46,59 @@ class TValidator {
     return null;
   }
 
-  static bool validatePhoneNumber(String?value) {
+  static bool isValidatePhoneNumber(String?value) {
     if (value == null || value.isEmpty) {
       return false;
     }
 
 
-    //Regular expression for phone number validation (assuming a 10-digit US phone number format)
-    final phoneRegExp = RegExp(r'^\d{10}');
+    //Regular expression for phone number validation (assuming a 6-digit US phone number format)
+    final phoneRegExp = RegExp(r'^\d{6}');
 
     if (!phoneRegExp.hasMatch(value)) {
       return false;
     }
     return true;
+  }
+  static String? validatePhoneNumber(String?value) {
+    if (value == null || value.isEmpty) {
+      return 'الرقم مطلوب';
+    }
+
+
+    //Regular expression for phone number validation (assuming a 6-digit US phone number format)
+    final phoneRegExp = RegExp(r'^\d{6}');
+
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'رقم الهاتف على الأقل يجب أن يكون مكوّن من 6 أرقام';
+    }
+    return null;
+  }
+
+  static bool isValidateName(String?value) {
+    if (value == null || value.isEmpty) {
+      return false;
+    }
+
+
+    if (value.length<3) {
+      return false;
+    }
+    return true;
+  }
+  static String? validateName(String?value) {
+    if (value == null || value.isEmpty) {
+      return 'الاسم مطلوب';
+    }
+
+
+    //Regular expression for phone number validation (assuming a 10-digit US phone number format)
+
+
+    if (value.length<3) {
+      return 'الاسم قصير جدا';
+    }
+    return null;
   }
   //Add more custom validators as needed for your specific requirements
 }

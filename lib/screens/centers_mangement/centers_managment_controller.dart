@@ -36,7 +36,7 @@ class CentersManagementController extends GetxController {
   late GeoPoint currentPointPosition;
   var isLoading = false.obs;
 
-  late double latitude, longitude;
+  late double latitude=0, longitude=0;
   var listSource = <SearchInfo>[].obs;
 
   @override
