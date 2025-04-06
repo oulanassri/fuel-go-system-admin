@@ -28,11 +28,11 @@ class MainScreen extends StatelessWidget {
                   child: SideMenu(),
                 ),
               Expanded(
-                flex: 2,
+                flex: 5,
                 child: DashboardScreen(),
               ),
               Expanded(
-                flex: 3,
+                flex: 1,
                 child: SizedBox(
                   width: defaultPadding,
                 ),

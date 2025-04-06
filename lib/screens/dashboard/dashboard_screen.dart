@@ -22,7 +22,7 @@ class DashboardScreen extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
-
+mainAxisSize: MainAxisSize.max,
           children: [
             Header(
               title: "لوحة التحكم",
@@ -30,11 +30,18 @@ class DashboardScreen extends StatelessWidget {
             SizedBox(
               height: defaultPadding,
             ),
-            DriversAmount(title: 'عدد السّائقين', svgSrc: '', numOfDrivers: 50,),
+            Center(
+              child: Image.asset(
+                "assets/images/Dashboard.png",
+                fit: BoxFit.cover,
+
+              ),
+            ),
+           /* DriversAmount(title: 'عدد السّائقين', svgSrc: '', numOfDrivers: 50,),
             SizedBox(
               height: defaultPadding,
             ),
-            OrdersDetails(),
+            OrdersDetails(),*/
 
           ],
         ),
