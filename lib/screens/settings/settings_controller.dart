@@ -18,7 +18,9 @@ class SettingsController extends GetxController {
   RxList constantValues = [].obs;
   var isLoading = false.obs;
   late String constantValuesKey;
-
+  TextEditingController oldPassword = TextEditingController();
+  TextEditingController newPassword = TextEditingController();
+  TextEditingController renewPassword = TextEditingController();
   final serviceNameController = TextEditingController();
   final servicePriceController = TextEditingController();
 
@@ -41,7 +43,48 @@ class SettingsController extends GetxController {
     final newTime = await showTimePicker(
         context: context, initialTime: time ?? initialTime);
   }
+  Future<void> editPassword() async {
+    Get.back();
 
+    print("editPassword");
+    try {isLoading(true);
+    Map data ={
+      "oldPassword": oldPassword.text,
+      "password": newPassword.text,
+      "rePassword":  renewPassword.text
+    };
+    print(data);
+
+
+    final response = await http.put(Uri.parse('${APIConstants.baseUrl}${APIConstants.endPoints.editPassword}'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: json.encode(data));
+    print("response statusCode  ${response.statusCode}");
+    print("response body  ${response.body}");
+    if (response.statusCode == 200 ) {
+      THelperFunctions.showSnackBar(
+          message: 'تم تغيير كلمة السّر بنجاح', title: 'تغيير كلمة السّر');
+      oldPassword.clear();
+      newPassword.clear();
+      renewPassword.clear();
+
+    } else {
+      THelperFunctions.showSnackBar(
+          message: response.body, title: 'تغيير كلمة السّر');
+      throw Exception('Failed to load date: ${response.statusCode}');
+    }
+
+
+
+    } catch (e) {
+      print(e);
+    }finally{
+      isLoading(false);
+    }
+  }
   Future<void> getConstantValues() async {
     print("getConstantValues");
     try {

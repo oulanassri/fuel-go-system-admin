@@ -8,11 +8,11 @@ class APIConstants {
 }
 class _EndPoints{
   final String login="/api/User/login";//True
-  final String editPassword="/api/User/edit-password";
+  final String editPassword="/api/User/edit-password";//True
 
-  final String addAdmin="/api/SystemAdmin/add-Admin";
+  final String addAdmin="/api/SystemAdmin/add-Admin";//True
   final String addCenter="/api/SystemAdmin/add-center";//True
-  final String getAllOrders="/api/SystemAdmin/get-all-orders";
+  final String getAllOrders="/api/SystemAdmin/get-all-orders";//True
   final String getCenters="/api/SystemAdmin/get-centers";//True
   final String getAdminsByCneter = "/api/SystemAdmin/get-admins-by-cneter";//True
   final String getConstantValues = "/api/ConstantDictionary/get-constant-values";//GET True

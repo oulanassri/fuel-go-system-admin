@@ -25,27 +25,28 @@ class TValidator {
   }
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Password is required';
+      return 'كلمة السّر مطلوبة';
     }
     // Check for minimum password length
     if (value.length < 6) {
-      return 'Password must be at least 6 characters long.';
+      return 'كلمة السّر على الأقل يجب أن يكون طولها 6 ';
     }
-    // Check for uppercase letters
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at least one uppercase letter.';
-    }
-    // Check for numbers
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at least one number.';
-    }
-    // Check for special characters
-    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]]'))) {
-      return 'Password must contain at least special character.';
-    }
+
+
     return null;
   }
+  static bool isValidatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return false;
+    }
+    // Check for minimum password length
+    if (value.length < 6) {
+      return false;
+    }
 
+
+    return true;
+  }
   static bool isValidatePhoneNumber(String?value) {
     if (value == null || value.isEmpty) {
       return false;
@@ -100,5 +101,5 @@ class TValidator {
     }
     return null;
   }
-  //Add more custom validators as needed for your specific requirements
+//Add more custom validators as needed for your specific requirements
 }
