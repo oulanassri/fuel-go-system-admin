@@ -70,6 +70,15 @@ class OrderDetails extends StatelessWidget {
                                     height: defaultPadding,
                                   ),
                                   // AddButton(),
+                                  Center(child: FuelOrderDetails(
+                                    date: date,
+                                    neighborhoodName: neighborhoodName,
+                                    locationDescription: locationDescription,
+                                    fuelTypeName: fuelTypeName,
+                                    finalQuantity: finalQuantity,
+                                    finalPrice: finalPrice,
+                                  ),),
+                                  SizedBox(height: 20,),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -85,14 +94,7 @@ class OrderDetails extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  FuelOrderDetails(
-                                    date: date,
-                                    neighborhoodName: neighborhoodName,
-                                    locationDescription: locationDescription,
-                                    fuelTypeName: fuelTypeName,
-                                    finalQuantity: finalQuantity,
-                                    finalPrice: finalPrice,
-                                  ),
+
                                   // CustomLorriesTable(),
                                 ],
                               ),
