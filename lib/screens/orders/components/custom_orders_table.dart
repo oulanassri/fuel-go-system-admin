@@ -137,7 +137,10 @@ final String title;
           "customerCarBrand":orderModel.customerCarBrand??"",
           "customerApartmentName":orderModel.customerApartmentName??"",
           "authCode":orderModel.authCode??"",
-
+          "customerName":orderModel.customerName??"",
+         "customerPhone": orderModel.customerPhone??"",
+          "driverName":orderModel.driverName??"",
+          "driverPhone":orderModel.driverPhone??"",
 
         });
       },
@@ -156,7 +159,7 @@ final String title;
         ),
         DataCell(
           Text(
-            orderModel.customerApartmentName ?? "",
+            orderModel.customerName ?? "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),

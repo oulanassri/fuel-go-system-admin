@@ -47,10 +47,10 @@ class CustomDriverDetails extends StatelessWidget {
             title: 'رقم الهاتف',
             label: driverPhone,
           ),
-          RowDetails(
+         /* RowDetails(
             title: driverLorryPlateNumber,
             label: '223322',
-          ),
+          ),*/
         ],
       ),
     );

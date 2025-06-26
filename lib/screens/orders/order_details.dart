@@ -26,6 +26,11 @@ class OrderDetails extends StatelessWidget {
   String customerApartmentName =
       Get.parameters['customerApartmentName'].toString();
   String authCode = Get.parameters['authCode'].toString();
+  String customerName=Get.parameters['customerName'].toString();
+  String customerPhone=Get.parameters['customerPhone'].toString();
+  String driverName=Get.parameters['driverName'].toString();
+  String driverPhone=Get.parameters['driverPhone'].toString();
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,12 +89,12 @@ class OrderDetails extends StatelessWidget {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomCustomerDetails(
-                                        customerName: customerApartmentName,
-                                        customerPhone: '',
+                                        customerName: customerName,
+                                        customerPhone: customerPhone,
                                       ),
                                       CustomDriverDetails(
-                                        driverName: '',
-                                        driverPhone: '',
+                                        driverName: driverName,
+                                        driverPhone: driverPhone,
                                         driverLorryPlateNumber: '',
                                       ),
                                     ],
