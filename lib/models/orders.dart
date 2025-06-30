@@ -17,7 +17,7 @@ class OrdersModel {
   String? driverName;
   String? driverPhone;
   String? deliveryFee;//
-
+  String? centerName;
   OrdersModel(
       {this.date,
         this.orderNumber,
@@ -36,7 +36,8 @@ class OrdersModel {
         this.customerPhone,
         this.driverName,
         this.driverPhone,
-        this.deliveryFee});
+        this.deliveryFee,
+      this.centerName});
 
   OrdersModel.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -57,6 +58,7 @@ class OrdersModel {
     driverName = json['driverName'];
     driverPhone = json['driverPhone'];
     deliveryFee = json['deliveryFee'].toString()??"";
+    centerName=json['centerName'].toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -12,11 +12,15 @@ import '../../constants.dart';
 import '../orders_controller.dart';
 
 class CustomOrdersTable extends StatelessWidget {
-   CustomOrdersTable({
-    super.key, required this.title,required this.controller,
+  CustomOrdersTable({
+    super.key,
+    required this.title,
+    required this.controller,
   });
-final String title;
-   OrdersController controller;
+
+  final String title;
+  OrdersController controller;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,6 +48,51 @@ final String title;
                         height: defaultPadding,
                       ),
                       // AddButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Obx(
+                            () => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "اختر  حالة الطّلب",
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                DropdownButton<String>(
+                                    // updated
+                                    onChanged: (String? newValue) {
+                                      controller.setSelectedOrderStatusCenter(
+                                          newValue ?? '');
+                                    },
+                                    value: controller.selectedOrderStatus.value,
+                                    onTap: () {}, //updated
+                                    items: [
+                                      for (String value
+                                          in controller.orderStatusList)
+                                        DropdownMenuItem(
+                                          value: value,
+                                          child: Text(
+                                            value ?? "",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge, //updated
+                                          ),
+                                        ),
+                                    ]),
+                              ],
+                            ),
+                          ),
+                          Text("لمعرفة تفاصيل أكثر اضغط مطوّلا على الطّلب",
+                              style: TextStyle().copyWith(
+                                fontSize: 18,
+                                fontFamily: 'Tajawal',
+                                fontWeight: FontWeight.w500,
+                                color: Colors.red,
+                              ))
+                        ],
+                      ),
                       Container(
                         padding: EdgeInsets.all(defaultPadding),
                         decoration: BoxDecoration(
@@ -54,59 +103,60 @@ final String title;
                         ),
                         child: Obx(() => controller.isLoading.value
                             ? Center(
-                          child: CircularProgressIndicator(color: primaryColor,),
-                        )
+                                child: CircularProgressIndicator(
+                                  color: primaryColor,
+                                ),
+                              )
                             : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: DataTable(
-                                columnSpacing: defaultPadding,
-                                columns: [
-                                  DataColumn(
-                                    label: Text(
-                                      " رقم االطلب",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      "نوع الوقود",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: Text(
-                                      "اسم الزبون",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
-                                  ),
-
-                                  DataColumn(
-                                    label: Text(
-                                      "التاريخ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: DataTable(
+                                      columnSpacing: defaultPadding,
+                                      columns: [
+                                        DataColumn(
+                                          label: Text(
+                                            " رقم االطلب",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            " المركز",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            "نوع الوقود",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            "التاريخ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
+                                        ),
+                                      ],
+                                      rows: List.generate(
+                                        controller.orders.length,
+                                        (index) => orderDataRow(
+                                            controller.orders[index], context),
+                                      ),
                                     ),
                                   ),
                                 ],
-                                rows: List.generate(
-                                  controller.orders.length,
-                                  (index) =>
-                                      orderDataRow(controller.orders[index], context),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
+                              )),
                       )
                       // CustomLorriesTable(),
                     ],
@@ -124,24 +174,24 @@ final String title;
   DataRow orderDataRow(OrdersModel orderModel, BuildContext context) {
     return DataRow(
       onLongPress: () {
-        Get.toNamed(Routes.ORDER_DETAILS,parameters:   {
-          "date": orderModel.date??"",
-          "orderNumber":orderModel.orderNumber??"",
-          "locationDescription":orderModel.locationDescription??"",
-          "neighborhoodName":orderModel.neighborhoodName??"",
-          "fuelTypeName":orderModel.fuelTypeName??"",
-          "orderedQuantity":orderModel.orderedQuantity.toString()??"",
-          "price":orderModel.price??"",
-          "finalQuantity":orderModel.finalQuantity??"",
-          "finalPrice":orderModel.finalPrice??"",
-          "customerCarBrand":orderModel.customerCarBrand??"",
-          "customerApartmentName":orderModel.customerApartmentName??"",
-          "authCode":orderModel.authCode??"",
-          "customerName":orderModel.customerName??"",
-         "customerPhone": orderModel.customerPhone??"",
-          "driverName":orderModel.driverName??"",
-          "driverPhone":orderModel.driverPhone??"",
-
+        Get.toNamed(Routes.ORDER_DETAILS, parameters: {
+          "date": orderModel.date ?? "",
+          "orderNumber": orderModel.orderNumber ?? "",
+          "locationDescription": orderModel.locationDescription ?? "",
+          "neighborhoodName": orderModel.neighborhoodName ?? "",
+          "fuelTypeName": orderModel.fuelTypeName ?? "",
+          "orderedQuantity": orderModel.orderedQuantity.toString() ?? "",
+          "price": orderModel.price ?? "",
+          "finalQuantity": orderModel.finalQuantity ?? "",
+          "finalPrice": orderModel.finalPrice ?? "",
+          "customerCarBrand": orderModel.customerCarBrand ?? "",
+          "customerApartmentName": orderModel.customerApartmentName ?? "",
+          "authCode": orderModel.authCode ?? "",
+          "customerName": orderModel.customerName ?? "",
+          "customerPhone": orderModel.customerPhone ?? "",
+          "driverName": orderModel.driverName ?? "",
+          "driverPhone": orderModel.driverPhone ?? "",
+          "centerName": orderModel.centerName ?? "",
         });
       },
       cells: [
@@ -153,17 +203,16 @@ final String title;
         ),
         DataCell(
           Text(
-            orderModel.fuelTypeName ?? "",
+            orderModel.centerName ?? "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
         DataCell(
           Text(
-            orderModel.customerName ?? "",
+            orderModel.fuelTypeName ?? "",
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
-
         DataCell(
           Text(
             orderModel.date ?? "",
@@ -173,5 +222,4 @@ final String title;
       ],
     );
   }
-
 }

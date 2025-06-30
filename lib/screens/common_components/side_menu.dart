@@ -70,7 +70,7 @@ class SideMenu extends StatelessWidget {
               svgSrc: 'assets/icons/menu_notification.svg',
               press: () {  UserStorage.delete('token');
 
-              Get.offNamed(Routes.LOGIN); },
+              Get.offAllNamed(Routes.LOGIN); },
             ),
           ],
         ),
