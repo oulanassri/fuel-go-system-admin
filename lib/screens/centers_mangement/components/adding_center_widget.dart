@@ -168,14 +168,14 @@ class AddingCenterWidget extends StatelessWidget {
                                     controller.isLoading.value = false;
                                   },
                                 ),
-                                Obx(
+                               /* Obx(
                                       () => controller.isLoading.value
                                       ? Center(
                                     child: CircularProgressIndicator(color: primaryColor,),
                                   )
                                       : controller.listSource.isEmpty
                                       ? Container()
-                                      : Container(
+                                      : SizedBox(
                                     height:
                                     controller.listSource.isNotEmpty
                                         ? 300
@@ -237,8 +237,7 @@ class AddingCenterWidget extends StatelessWidget {
                                           );
                                         }),
                                   ),
-                                ),
-                                Text(
+                                ),Text(
                                   "يُرجى تحديد موقعك على الخريطة",
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
@@ -288,7 +287,7 @@ class AddingCenterWidget extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ),
+                                ),*/
                                 SizedBox(
                                   height: 40,
                                 ),
@@ -322,8 +321,8 @@ class AddingCenterWidget extends StatelessWidget {
                                                       .locationDetailsController
                                                       .text
                                                       .length >
-                                                  2) &&
-                                              (controller.longitude > 0 )) {
+                                                  2)/* &&
+                                              (controller.longitude > 0 )*/) {
                                             controller.addCenter();
                                           } else {
                                             String? message1 = "",
@@ -357,9 +356,9 @@ class AddingCenterWidget extends StatelessWidget {
                                               message3 =
                                                   "العنوان قصير جدا و غير واضح";
                                             }
-                                            if(controller.longitude== 0) {
+                                          /*  if(controller.longitude== 0) {
                                               message4="يُرجى تحديد الموقع على الخريطة";
-                                            }
+                                            }*/
                                             THelperFunctions.showSnackBar(
                                                 title: "رسالة خطأ",
                                                 message:
