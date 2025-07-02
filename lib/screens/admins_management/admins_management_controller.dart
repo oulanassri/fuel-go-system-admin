@@ -58,6 +58,8 @@ class AdminsManagementController extends GetxController {
         getAdmins();
       }
     }
+    print(selectedCenter.value);
+    print(selectedCenterId.value);
   }
 
   void setSelectedSift(String value) {
