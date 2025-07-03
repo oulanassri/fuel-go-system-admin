@@ -53,10 +53,13 @@ class AdminsTable extends StatelessWidget {
                             DropdownButton<String>(
                               // updated
                                 onChanged: (String? newValue) {
-                                  controller.setSelectedCenter(
-                                      newValue ?? '');
+                                  if (newValue != null) {
+                                    controller.setSelectedCenter(newValue);
+                                  }
                                 },
-                                value: controller.selectedCenter.value,
+                                value: controller.centersList.any((c) => c.name == controller.selectedCenter.value)
+                                    ? controller.selectedCenter.value
+                                    : null,
                                 onTap: () {}, //updated
                                 items: [
                                   for (CentersModel value
